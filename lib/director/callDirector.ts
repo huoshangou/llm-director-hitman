@@ -53,7 +53,7 @@ export function resolveLlmConfig(clientLlm?: ClientLlmSettings | null): LlmRunti
       model:
         process.env.OPENROUTER_MODEL?.trim() ??
         process.env.OPENAI_MODEL?.trim() ??
-        "deepseek/deepseek-chat",
+        "deepseek/deepseek-v4-pro",
     };
   }
 
