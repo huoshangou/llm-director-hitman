@@ -17,14 +17,14 @@ const LlmSettings = {
           id: "openrouter",
           label: "OpenRouter",
           hint: "聚合 DeepSeek 等",
-          defaultModel: "deepseek/deepseek-chat",
+          defaultModel: "deepseek/deepseek-v4-pro",
           defaultBaseUrl: "https://openrouter.ai/api/v1",
         },
         {
           id: "deepseek",
           label: "DeepSeek 官方",
           hint: "api.deepseek.com",
-          defaultModel: "deepseek-chat",
+          defaultModel: "deepseek-v4-pro",
           defaultBaseUrl: "https://api.deepseek.com/v1",
         },
         {
@@ -81,7 +81,7 @@ const LlmSettings = {
   defaultSettings() {
     const p = this.presets[0] ?? {
       id: "openrouter",
-      defaultModel: "deepseek/deepseek-chat",
+      defaultModel: "deepseek/deepseek-v4-pro",
       defaultBaseUrl: "https://openrouter.ai/api/v1",
     };
     return {

@@ -5,88 +5,84 @@
 **作者：** stevehong  
 **仓库：** https://github.com/huoshangou/llm-director-hitman
 
-本 demo 的核心体验依赖 **LLM Director**：请自备 API Key 后再运行。
+本 demo 由 **LLM Director** 驱动：请在游戏内配置 API Key 后再提交计划（Key 只保存在本机浏览器，不会写入仓库）。
 
 ---
 
-## 环境要求
+## 推荐怎么开始（不用记终端命令）
 
-- **Node.js** ≥ 18（推荐 20 LTS）
-- **npm**
-- **LLM API Key**（见下方配置；推荐 OpenRouter + DeepSeek V4 Pro）
-- 可用 **8747** 端口
-- 浏览器请用 **http://127.0.0.1:8747**（项目统一用 127.0.0.1，避免 `localhost` 解析异常）
+### 方式一：把仓库交给 Claude Code / Codex
+
+把下面整段复制给你的 coding agent（需已安装 [Node.js 18+](https://nodejs.org/)）：
+
+```text
+请克隆并在本机运行这个 LLM 游戏 demo：
+https://github.com/huoshangou/llm-director-hitman
+
+要求：
+1. git clone 后进入仓库根目录
+2. 若未安装依赖则 npm install
+3. 启动本地服务（npm run play，或 macOS 双击「启动 Hitman 演示.command」）
+4. 在浏览器打开 http://127.0.0.1:8747/play/index.html
+5. 告诉我如何在游戏内「AI 接入」面板配置 OpenRouter Key，模型用 deepseek/deepseek-v4-pro
+6. 不要让我手改 .env；API Key 应在游戏 UI 里配置
+```
+
+Agent 会代为完成下载、安装与启动；你只需在打开的页面里填 Key。
+
+### 方式二：macOS 一键启动（本仓库自带）
+
+1. [Download ZIP](https://github.com/huoshangou/llm-director-hitman/archive/refs/heads/main.zip) 或 `git clone` 到本机任意目录（**不要**放在 iCloud 同步目录里，避免权限问题）。
+2. 安装 [Node.js 18+](https://nodejs.org/)（仅需一次）。
+3. 在仓库根目录 **双击** `启动 Hitman 演示.command`  
+   - 首次会自动 `npm install`（稍等片刻）  
+   - 随后启动本地服务；**不要关闭弹出的终端窗口**  
+   - 浏览器一般会打开；若没有，请手动访问下方地址  
+4. 若 macOS 提示「无法打开」：右键该文件 → **打开** → 确认一次。
+
+> Windows：可用方式一交给 Codex；或在仓库根目录打开终端执行 `npm install` 与 `npm run play`（见文末「开发者」）。
 
 ---
 
-## 快速开始
-
-### 1. 克隆与安装
-
-```bash
-git clone https://github.com/huoshangou/llm-director-hitman.git
-cd llm-director-hitman
-npm install
-```
-
-### 2. 配置 LLM（必做）
-
-```bash
-cp .env.example .env.local
-```
-
-编辑 `.env.local`，**推荐**通过 [OpenRouter](https://openrouter.ai/) 使用 **DeepSeek V4 Pro**（维护者本地即用此组合）：
-
-```env
-OPENROUTER_API_KEY=你的_OpenRouter_密钥
-OPENROUTER_MODEL=deepseek/deepseek-v4-pro
-```
-
-在 OpenRouter 创建 Key：https://openrouter.ai/keys  
-
-模型页（确认 slug 与定价）：https://openrouter.ai/deepseek/deepseek-v4-pro
-
-**备选：DeepSeek 官方 API**
-
-```env
-OPENAI_API_KEY=你的_DeepSeek_密钥
-OPENAI_MODEL=deepseek-v4-pro
-OPENAI_BASE_URL=https://api.deepseek.com/v1
-```
-
-Key 在 https://platform.deepseek.com/ 创建。
-
-> `.env.local` 已在 `.gitignore` 中，**请勿将密钥提交到 Git**。修改后需重启服务。
-
-### 3. 启动
-
-```bash
-npm run play
-```
-
-`npm run play` 会自动：构建沙盒核心 → 发布到 `public/play/` → 启动 Next.js（端口 **8747**）。终端保持运行，停止请 **Ctrl+C**。
-
-### 4. 打开浏览器
+## 打开哪个页面
 
 | 地址 | 说明 |
 |------|------|
-| http://127.0.0.1:8747/play/index.html | **推荐**：Canvas 导演沙盒（完整体验） |
-| http://127.0.0.1:8747/ | 主站：Plan、Inspector |
-| http://127.0.0.1:8747/gm | GM：LLM 连通性测试 |
+| http://127.0.0.1:8747/play/index.html | **玩家入口**（推荐） |
+| http://127.0.0.1:8747/gm | GM / LLM 连通性测试 |
 
-首次启动前可在 `/gm` 确认 LLM 已连通。
+请使用 **127.0.0.1**，不要用 `localhost`（与项目约定一致）。
+
+---
+
+## 在游戏内配置 LLM（必做）
+
+启动后进入 **`/play/`**，左侧面板展开 **「AI 接入」**：
+
+1. **供应商**：选 **OpenRouter**（推荐；一个 Key 可用多家模型）。
+2. **模型 ID**：填 **`deepseek/deepseek-v4-pro`**（DeepSeek V4 Pro，维护者本地使用此模型）。  
+   - 模型说明：https://openrouter.ai/deepseek/deepseek-v4-pro
+3. **API Key**：在 https://openrouter.ai/keys 创建并粘贴（**仅存本机浏览器**，不会上传 GitHub）。
+4. 点 **「测试连通」** → 成功后再点 **「保存」**。
+5. 阅读任务简报，在 **「输入指令」** 用中文写下暗杀计划并 **发送指令**。
+
+**备选供应商**
+
+| 供应商 | 模型 ID 示例 | Key 获取 |
+|--------|----------------|----------|
+| DeepSeek 官方 | `deepseek-v4-pro` | https://platform.deepseek.com/ |
+| OpenAI | `gpt-4o-mini` | https://platform.openai.com/ |
+
+配置完成前，Director 无法按设计编译你的自然语言计划。
 
 ---
 
 ## 怎么玩
 
-1. 打开 **http://127.0.0.1:8747/play/index.html**，阅读任务简报。
-2. 用中文写下暗杀计划（例：让目标去阳台、下毒、别触发安保、最好像意外）。
-3. 提交后 **LLM Director** 将计划编译为 `DirectorPlan`（意图、约束、工具链）。
-4. 每回合引擎 **确定性执行** 工具链前沿一步；地图、NPC、电台、Inspector 反馈因果。
-5. 根据结果继续补充或修改计划，直到任务成功或失败。
-
-核心体验：玩家想到的计划，被转译成世界里的**可见因果链**——不是和文本框聊天。
+1. 地图点选目标 / 物件，底部 **骇入分析** 查看情报。
+2. 用自然语言写计划（例：让目标去阳台、下毒、别惊动安保、最好像意外）。
+3. **LLM Director** 编译为工具链；每回合引擎 **确定性执行** 一步，地图与 **Command Feed** 反馈因果。
+4. 根据结果继续补充计划，直到成功或失败。
 
 ---
 
@@ -94,79 +90,66 @@ npm run play
 
 ```text
 自然语言 Plan
-  → LLM Director（语义编译：意图 / 约束 / toolChain）
-  → 校验 DirectorPlan（Zod）
-  → ToolResolver（确定性规则改 WorldState）
+  → LLM Director（语义编译）
+  → 校验 DirectorPlan
+  → ToolResolver（确定性改 WorldState）
   → Timeline / 2.5D 表现
   → 玩家 Replan
 ```
 
-**红线**：LLM 不直接写 WorldState；只产出 DirectorPlan。开放感来自自然语言入口，可信度来自游戏规则。
+LLM 不直接改世界状态，只产出 `DirectorPlan`。
 
 ---
 
 ## 项目结构
 
 ```text
-app/              Next.js 页面与 API（/api/director 等）
-components/       React UI
-lib/
-  world/          WorldState、NPC tick、规则
-  tools/          ToolRegistry、ToolResolver
-  director/       LLM 编译、DirectorPlan 校验
-  timeline/       事件时间线
-  beats/          关卡节拍
-  bridge/         沙盒 bundle 入口（hitman-core.js）
-sandbox-shell/    Canvas 沙盒 HTML/JS 源码
-public/play/      沙盒构建产物（npm run play 时生成，不入库）
-scripts/          dev-server、sync、测试脚本
-docs/             设计文档与 ADR
+app/                    Next.js API
+lib/director/           LLM 编译与校验
+lib/tools/              确定性规则
+sandbox-shell/          /play 页面源码
+启动 Hitman 演示.command   macOS 一键启动（仓库根目录）
 ```
 
 ---
 
 ## 常见问题
 
-**LLM 无响应 / Plan 无法编译**  
-检查 `.env.local` 是否已填 Key、`OPENROUTER_MODEL` 是否为 `deepseek/deepseek-v4-pro`，并重启 `npm run play`。在 `/gm` 页测试连通性。
+**双击 `.command` 没反应**  
+确认已装 Node.js；右键 → 打开。查看终端窗口里的报错。
 
-**`/play/` 空白或 404**  
-须先执行 `npm run play`（会生成 `public/play/`），不要只跑 `next dev`。
+**`/play/` 空白**  
+须通过 `npm run play` 或双击启动器启动，不要单独开静态 HTML。
 
-**端口被占用**
+**LLM 测试失败**  
+检查 Key 是否有效、模型 ID 是否为 `deepseek/deepseek-v4-pro`、本机能否访问对应 API。
 
-```bash
-lsof -ti :8747 | xargs kill -9   # macOS / Linux
-npm run play
-```
-
-**只想重新构建沙盒**
-
-```bash
-npm run build:sandbox && npm run sync:play
-```
+**端口 8747 被占用**  
+关闭旧终端里的演示进程，或重启电脑后再双击启动器。
 
 ---
 
-## 开发验证
+## 开发者（可选）
 
 ```bash
-npm run lint
-npm run build
-npm run test:tools
-npm run test:timeline
-npm run test:sandbox
+git clone https://github.com/huoshangou/llm-director-hitman.git
+cd llm-director-hitman
+npm install
+npm run play
+```
+
+`npm run play` 会自动构建沙盒并同步到 `public/play/`。  
+服务端 `.env.local` 仅作开发兜底，**玩家体验以游戏内「AI 接入」为准**。
+
+```bash
+npm run lint && npm run test:tools && npm run test:sandbox
 ```
 
 ---
 
 ## 文档
 
-- 术语：[CONTEXT.md](./CONTEXT.md)
-- 产品定义：[docs/01-vision/product-brief.md](./docs/01-vision/product-brief.md)
-- 分层数据流：[docs/03-system-design/layers-and-data-flow.md](./docs/03-system-design/layers-and-data-flow.md)
-
----
+- [CONTEXT.md](./CONTEXT.md) · [product-brief](./docs/01-vision/product-brief.md) · [layers-and-data-flow](./docs/03-system-design/layers-and-data-flow.md)
 
 ## License
 
