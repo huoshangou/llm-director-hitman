@@ -43,6 +43,13 @@ if (parallel.ok) {
   assert.ok(parallel.chain.some((s) => s.actor === "face" && s.toolId === "lure_with_private_meeting"));
 }
 
+const servicePower = compilePlanFromText("换好服务生衣服，切断电源，准备行动", world, null);
+assert.equal(servicePower.ok, true);
+if (servicePower.ok) {
+  assert.ok(servicePower.chain.some((s) => s.actor === "runner" && s.toolId === "impersonate_staff"));
+  assert.ok(servicePower.chain.some((s) => s.actor === "runner" && s.toolId === "disable_power_panel"));
+}
+
 const staleCart = compilePlanFromText("Runner，动手", world, {
   kind: "object",
   id: "cleaning_cart",

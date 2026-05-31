@@ -97,7 +97,8 @@ const RULES: Rule[] = [
     }),
   },
   {
-    test: (t) => /引开|支开|guard|保安|注意力/i.test(t),
+    test: (t) =>
+      /引开|支开|调开|转移.*(guard|保安|注意力)|让.*(guard|保安).*(离开|走开|调走)|注意力/i.test(t),
     build: () => ({
       toolId: "redirect_guard_attention",
       actor: "face",
@@ -117,7 +118,7 @@ const RULES: Rule[] = [
     }),
   },
   {
-    test: (t) => /伪装|制服|服务员|impersonate/i.test(t),
+    test: (t) => /伪装|制服|服务员|服务生|侍者|工作服|服务制服|waiter|impersonate/i.test(t),
     build: (world) => ({
       toolId: "impersonate_staff",
       actor: pickActor("impersonate_staff", world.agents.runner.location === "kitchen" ? "runner" : "face"),
@@ -466,7 +467,7 @@ function wantsParallelCompile(text: string, world: WorldState): boolean {
   const hasFace = /\bface\b|脸\b|让\s*face|face\s*去/i.test(text) || /社交|搭话|接触目标|引开/i.test(text);
   const hasRunner =
     /\brunner\b|跑手/i.test(text) ||
-    /runner\s*(换|动|推|去)|清洁车|伪装|配电|栏杆|吧台.*毒|备毒|下毒/i.test(text);
+    /runner\s*(换|动|推|去)|清洁车|伪装|制服|服务员|服务生|侍者|工作服|服务制服|配电|栏杆|吧台.*毒|备毒|下毒/i.test(text);
   const hasPlayer = /我先|玩家|骇入|伪造.*短信|改名单/i.test(text);
   let n = 0;
   if (hasFace) n += 1;

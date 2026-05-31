@@ -72,18 +72,20 @@ LLM（主）编译出 `plan.toolChain` → 规则层**多 wave** 执行「链上
 | C7 | 叙事「植入了短信/访客」→ 补 `spoof_message`；「混画廊」→ 补 `infiltrate_gallery`；「拿酒」→ `prepare_poisoned_drink` | `planSanitize.ts` |
 | C8 | 续接短句（递杯、送去阳台）→ `worldContinuation` **优先于 LLM** | `compileDirector.ts` |
 | C9 | LLM 编译失败（非暴力 UNSUPPORTED_INTENT）→ `tryStubFallback` | `compileDirector.ts` |
+| C10 | LLM 漏掉玩家明确说出的 tool 子意图 → 从规则 stub 补齐；**同一 actor 漏项也补**，执行层用多 wave 决定本 turn 能跑多少 | `planSanitize.ts` |
 
 ## 编译后处理顺序（prepareDirectorPlan）
 
 ```text
 sanitizeUnsupportedFromPlan   // LLM unsupportedParts 按 actor 剔除
 → augmentParallelActorsFromStub
+→ augmentExplicitToolIntentsFromStub
 → augmentPoisonNarrative
 → augmentBarWineIntent
 → augmentGalleryInfiltrate
 ```
 
-**原则**：augment **补** LLM/stub 漏项，**不替代** LLM 主链；有 Key 时仍以 LLM 为首选。
+**原则**：augment **补** LLM/stub 漏项，**不替代** LLM 主链；有 Key 时仍以 LLM 为首选。补链只针对玩家文本明确说出的工具意图，不用 stub 自作主张扩写未来计划。
 
 ## 7b + 多 wave 执行语义
 

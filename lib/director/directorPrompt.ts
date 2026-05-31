@@ -35,8 +35,9 @@ Return strict JSON only (no markdown). Shape:
 
 Rules:
 - Information tools → actor "player". Social/physical → "face" or "runner".
-- toolChain array order = Director intent only. Runtime executes at most ONE tool per actor per turn.
-- Put only THIS turn's actions in toolChain — do not stack future turns for the same actor.
+- toolChain array order = Director intent. Include every tool intent the player explicitly requests for THIS turn.
+- Runtime uses executable frontier + multi-wave execution: it may run multiple chain steps when earlier steps unlock later preconditions, including same-actor steps.
+- Do not add future-plan tools the player did not ask for, but do not drop explicit sub-actions just because they share the same actor.
 - 混进画廊 / 进画廊 → face MUST use infiltrate_gallery (moves Face to gallery). NOT redirect_guard_attention or create_complaint alone.
 - Match other player phrases to the correct tool per directorConstraints.forbiddenSubstitutions.
 - mapSelection is authoritative ONLY when playerPlan is empty or uses 这个/它/selected; otherwise ignore mapSelection for targets.
