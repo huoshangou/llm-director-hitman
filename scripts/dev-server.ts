@@ -18,9 +18,14 @@ import { mirrorRepo } from "./lib/mirror";
 import { reuseExistingServer } from "./lib/port";
 
 function openBrowser(url: string) {
-  if (process.platform !== "darwin") return;
   try {
-    execSync(`open "${url}"`, { stdio: "ignore" });
+    if (process.platform === "darwin") {
+      execSync(`open "${url}"`, { stdio: "ignore" });
+    } else if (process.platform === "win32") {
+      execSync(`start "" "${url}"`, { stdio: "ignore", shell: true });
+    } else {
+      execSync(`xdg-open "${url}"`, { stdio: "ignore" });
+    }
   } catch {
     /* ignore */
   }
@@ -107,10 +112,12 @@ async function main() {
     })();
   }, 2500);
 
+  const isWin = process.platform === "win32";
   const child = spawn(next, ["dev", "--turbopack", "-p", String(PORT), "-H", HOST], {
     cwd: playRoot,
     stdio: "inherit",
     env: process.env,
+    shell: isWin,
   });
 
   child.on("exit", (code) => {
