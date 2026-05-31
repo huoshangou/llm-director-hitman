@@ -1,0 +1,22 @@
+node_modules
+.next
+out
+.env
+.env.local
+.env.*.local
+*.log
+.logs/
+.DS_Store
+sandbox-shell/dist/
+public/play/
+output/
+.playwright-cli/
+.superpowers/
+
+# 本地协作文档（不入公开仓库）
+docs/archive/
+docs/07-planning/
+docs/08-alignment/
+docs/05-engineering/local-demo.md
+CLAUDE.md
+AGENTS.md

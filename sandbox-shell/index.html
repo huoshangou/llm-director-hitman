@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hitman · Balcony Job 导演沙盒 H1</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --play-topbar-h: 36px;
+      --play-panel-w: min(400px, 34vw);
+      /** 骇入分析底栏：恒定高度，内容只在内部滚动，不挤压地图 */
+      --play-analysis-h: 148px;
+      --ops-bg: #040604;
+      --ops-bg-2: #0a0d09;
+      --ops-panel: #0b0f0b;
+      --ops-panel-2: #11150f;
+      --ops-line: rgba(151, 166, 132, 0.32);
+      --ops-line-soft: rgba(151, 166, 132, 0.18);
+      --ops-cyan: #9fb89c;
+      --ops-cyan-dim: #7e9580;
+      --ops-amber: #c9a45e;
+      --ops-red: #b95f57;
+      --ops-text: #c8c8b6;
+      --ops-muted: #8c957f;
+      --ops-paper: #16170f;
+      --ops-ink: #e1dec8;
+    }
+    body {
+      background:
+        linear-gradient(90deg, rgba(201, 164, 94, 0.035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(201, 164, 94, 0.025) 1px, transparent 1px),
+        radial-gradient(circle at 18% 12%, rgba(151, 166, 132, 0.08), transparent 32%),
+        linear-gradient(135deg, var(--ops-bg), #020302 56%, #090b08);
+      background-size: 32px 32px, 32px 32px, auto, auto;
+      color: var(--ops-text);
+      font-family: "IBM Plex Mono", "SFMono-Regular", "Menlo", "PingFang SC", monospace;
+      overflow: hidden;
+      height: 100vh;
+      margin: 0;
+    }
+    #play-layout {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+      min-height: 0;
+    }
+    #play-topbar {
+      flex: 0 0 36px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 14px;
+      background: #090c08;
+      border-bottom: 1px solid var(--ops-line);
+      font-size: 10px;
+      color: var(--ops-muted);
+      letter-spacing: 0.08em;
+      box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.8);
+    }
+    #play-topbar strong { color: var(--ops-ink); font-size: 12px; text-transform: uppercase; }
+    #play-topbar .build-tag { color: var(--ops-amber); }
+    #play-body {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      min-height: 0;
+      overflow: hidden;
+    }
+    #map-stage {
+      position: relative;
+      flex: 1;
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      background: #0a0e18;
+      overflow: hidden;
+    }
+    #map-canvas-wrap {
+      position: relative;
+      flex: 1 1 0;
+      min-height: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(14, 17, 12, 0.96), rgba(4, 6, 5, 0.99));
+      border: 1px solid var(--ops-line);
+      box-shadow:
+        inset 0 0 0 2px rgba(0, 0, 0, 0.62),
+        inset 0 0 34px rgba(0, 0, 0, 0.42);
+    }
+    #map-canvas-wrap::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      background:
+        linear-gradient(rgba(151, 166, 132, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(151, 166, 132, 0.035) 1px, transparent 1px);
+      background-size: 64px 64px, 64px 64px;
+      mix-blend-mode: screen;
+    }
+    #map-canvas-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+      background:
+        repeating-linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.025),
+          rgba(255, 255, 255, 0.025) 1px,
+          transparent 1px,
+          transparent 4px
+        );
+      opacity: 0.26;
+    }
+    #map-canvas-wrap canvas,
+    #canvas {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #1a2035;
+    }
+    #hacker-analysis {
+      position: relative;
+      flex: 0 0 var(--play-analysis-h);
+      height: var(--play-analysis-h);
+      min-height: var(--play-analysis-h);
+      max-height: var(--play-analysis-h);
+      box-sizing: border-box;
+      padding: 8px 16px 10px;
+      background:
+        linear-gradient(90deg, rgba(201, 164, 94, 0.05), transparent 42%),
+        #090c08;
+      border-top: 1px solid var(--ops-line-soft);
+      box-shadow: inset 0 1px 0 rgba(201, 164, 94, 0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+    #hacker-analysis-body {
+      flex: 1;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+    #hacker-analysis.ha-active {
+      border-top-color: #5eead4;
+      box-shadow: 0 -6px 28px rgba(94, 234, 212, 0.14);
+    }
+    #panel {
+      flex: 0 0 var(--play-panel-w);
+      width: var(--play-panel-w);
+      min-width: 300px;
+      height: 100%;
+      max-height: none;
+    }
+    #hacker-analysis .ha-label {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--ops-amber);
+      margin-bottom: 6px;
+    }
+    #hacker-analysis .ha-title { font-size: 14px; font-weight: 600; color: #e0f2fe; }
+    #hacker-analysis .ha-sub { font-size: 11px; color: #64748b; margin-top: 2px; }
+    #hacker-analysis .ha-lines p { color: #94a3b8; margin-top: 6px; }
+    #hacker-analysis .ha-aff {
+      margin: 8px 0 0 18px; color: #a7f3d0; font-size: 11px;
+    }
+    #hacker-analysis .ha-wait {
+      color: #94a3b8;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+    #panel {
+      background:
+        linear-gradient(180deg, rgba(16, 19, 14, 0.98), rgba(6, 8, 6, 0.99));
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden;
+      border-left: 1px solid var(--ops-line-soft);
+      box-shadow: inset 1px 0 0 rgba(201, 164, 94, 0.08);
+    }
+    #panel-scroll-top { flex-shrink: 0; }
+    #panel-header {
+      padding: 12px 16px;
+      background: #1a2440;
+      border-bottom: 1px solid #2a3a5a;
+    }
+    #panel-header h2 { font-size: 15px; color: #e94560; margin-bottom: 6px; }
+    #panel-header p { font-size: 11px; color: #7a8aaa; line-height: 1.6; }
+    #stats {
+      padding: 10px 16px;
+      background: #151e35;
+      border-bottom: 1px solid #2a3a5a;
+      font-size: 12px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .stat-label { color: #6a7a9a; }
+    .stat-val { color: #e0e0e0; font-weight: bold; }
+    #beat-status {
+      padding: 8px 16px;
+      background: #1a1030;
+      border-bottom: 1px solid #2a3a5a;
+      font-size: 12px;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    #step-guide {
+      padding: 10px 16px;
+      background: linear-gradient(180deg, rgba(7, 19, 31, 0.96), rgba(5, 12, 22, 0.98));
+      border-bottom: 1px solid var(--ops-line-soft);
+      font-size: 12px;
+      line-height: 1.55;
+      color: #a7f3d0;
+      box-shadow: inset 0 0 0 1px rgba(94, 234, 212, 0.05);
+    }
+    #step-guide strong { color: #ecfdf5; }
+    #step-guide .step-cta { color: #6ee7b7; font-size: 11px; margin-top: 4px; }
+    .beat-tag {
+      background: #e94560;
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 10px;
+      font-size: 11px;
+      line-height: 1.4;
+    }
+    #actions {
+      padding: 10px 16px;
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid #2a3a5a;
+    }
+    .btn {
+      flex: 1;
+      background: #2a3a5a;
+      border: 1px solid rgba(94, 234, 212, 0.26);
+      color: #e0e8ff;
+      padding: 8px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-family: inherit;
+    }
+    .btn:hover { background: #3a5a8a; border-color: rgba(94, 234, 212, 0.62); }
+    .btn-primary { background: #e94560; border-color: #ff6080; }
+    .btn-primary:hover { background: #ff6080; }
+    #action-log {
+      margin: 0;
+      padding: 8px 10px;
+      flex: 0 0 auto;
+      min-height: 0;
+      max-height: 132px;
+      overflow-y: auto;
+      font-size: 11px;
+      line-height: 1.55;
+      background: #0a1020;
+      border: 1px solid #334155;
+      border-radius: 0;
+    }
+    #action-log h4 {
+      font-size: 11px; color: #94a3b8; margin-bottom: 8px;
+      position: sticky; top: 0; background: #0a1020; padding-bottom: 4px; z-index: 1;
+    }
+    #log { min-height: 200px; }
+    #log::-webkit-scrollbar { width: 4px; }
+    #log::-webkit-scrollbar-thumb { background: #2a3a5a; border-radius: 2px; }
+    .log-entry { padding: 3px 0; border-bottom: 1px solid #1a2440; }
+    .log-t { color: #4a5a7a; font-size: 10px; margin-right: 6px; font-family: monospace; }
+    .log-director { color: #60a0ff; }
+    .log-beat { color: #50e080; }
+    .log-tool { color: #f0a030; }
+    .log-world { color: #a080e0; }
+    .log-reaction { color: #80d0d0; }
+    .log-result { color: #ff6090; font-weight: bold; }
+    .log-modifier { color: #f0a030; }
+    #route-row {
+      padding: 8px 16px;
+      border-bottom: 1px solid #2a3a5a;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #route-row select {
+      flex: 1;
+      background: #2a3a5a;
+      color: #e0e8ff;
+      border: 1px solid #3a4a6a;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+    #mod-tags { padding: 0 16px 6px; min-height: 22px; }
+    .mod-tag {
+      background: #f0a030;
+      color: #1a1a2e;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+    }
+    #inject-panel {
+      padding: 8px 16px;
+      background: #101828;
+      border-bottom: 1px solid #2a3a5a;
+      font-size: 11px;
+      max-height: 88px;
+      overflow-y: auto;
+    }
+    #hacker-comms .comms-hint {
+      font-size: 10px;
+      color: #64748b;
+      margin: 0 0 8px;
+      line-height: 1.45;
+    }
+    #btn-step:disabled { opacity: 0.45; cursor: not-allowed; }
+    #inject-panel h4 { color: #6a7a9a; font-size: 10px; margin-bottom: 6px; }
+    .inject-item { margin-bottom: 4px; color: #a0b8d8; }
+    .inject-p { color: #e94560; font-weight: bold; }
+    .inject-ttl { color: #6a7a9a; font-size: 10px; }
+    .inject-reason { color: #7a8aaa; font-size: 10px; }
+    .inject-empty { color: #5a6a8a; }
+    #hacker-comms {
+      margin: 0 12px 10px;
+      padding: 10px 14px;
+      background: #0c1a28;
+      border: 1px solid #334155;
+      flex: 1 1 220px;
+      min-height: 200px;
+      max-height: min(44vh, 340px);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    #hacker-comms h4 {
+      font-size: 10px;
+      color: #5eead4;
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+    }
+    #hacker-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+    }
+    .feed-line {
+      font-size: 11px;
+      line-height: 1.48;
+      color: var(--ops-text);
+      border-left: 1px solid rgba(151, 166, 132, 0.44);
+      padding: 2px 0 2px 8px;
+    }
+    .feed-line.feed-tone-player,
+    .feed-line.feed-speaker-you {
+      border-left-color: rgba(151, 166, 132, 0.72);
+      color: var(--ops-ink);
+    }
+    .feed-line.feed-speaker-exec,
+    .feed-line.feed-speaker-ops {
+      border-left-color: rgba(94, 234, 212, 0.55);
+      color: #c8c8b6;
+    }
+    .feed-line.feed-speaker-next {
+      border-left-color: var(--ops-amber);
+      color: var(--ops-ink);
+    }
+    .feed-line.feed-speaker-face,
+    .feed-line.feed-speaker-runner,
+    .feed-line.feed-speaker-hacker {
+      border-left-color: var(--ops-amber);
+      color: var(--ops-ink);
+    }
+    .feed-line.feed-speaker-world {
+      border-left-color: rgba(151, 166, 132, 0.35);
+      color: #aeb8a4;
+    }
+    .hacker-empty { color: #5a7a8a; font-size: 11px; }
+    #player-plan { padding: 10px 16px; border-bottom: 1px solid #2a3a5a; }
+    #player-plan h4 { font-size: 11px; color: #a5b4fc; margin-bottom: 8px; }
+    details.llm-fold {
+      padding: 0 16px 8px;
+      border-bottom: 1px solid #2a3a5a;
+      font-size: 12px;
+    }
+    details.llm-fold summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 10px 0 6px;
+      color: #a5b4fc;
+      font-weight: 600;
+    }
+    details.llm-fold summary::-webkit-details-marker { display: none; }
+    details.llm-fold[open] summary { margin-bottom: 4px; }
+    #llm-settings { padding-top: 4px; }
+    .field-label { font-size: 10px; color: #7a8aaa; margin-top: 8px; display: block; }
+    .field-input, .field-select {
+      width: 100%; margin-top: 4px; padding: 6px 8px; border-radius: 6px;
+      border: 1px solid #3a4a6a; background: #0f172a; color: #e2e8f0; font-size: 11px;
+    }
+    #llm-status-badge {
+      font-size: 10px; padding: 2px 8px; border-radius: 8px; float: right;
+    }
+    #plan-input {
+      width: 100%; min-height: 72px; margin-top: 6px; padding: 8px; border-radius: 8px;
+      border: 1px solid #3a4a6a; background: #0f172a; color: #e2e8f0; font-size: 12px;
+      font-family: inherit; resize: vertical;
+    }
+    #plan-status {
+      font-size: 11px; color: #94a3b8; margin-top: 6px; min-height: 2.6em;
+      line-height: 1.45; padding: 6px 8px; background: #0a1020; border-radius: 6px;
+      border: 1px solid #2a3a5a;
+    }
+    #llm-test-result { font-size: 10px; margin-top: 6px; min-height: 1.2em; line-height: 1.4; }
+    .panel-actions { display: flex; gap: 8px; margin-top: 8px; }
+    details.demo-panel { padding: 8px 16px; border-bottom: 1px solid #2a3a5a; font-size: 12px; }
+    details.demo-panel summary { cursor: pointer; color: #94a3b8; }
+    .gm-link { color: #93c5fd; text-decoration: none; }
+    .btn-gm {
+      display: inline-block; margin-top: 8px; padding: 6px 12px;
+      font-size: 11px; border-radius: 6px; border: 1px solid #3b4f7a;
+      background: #1e2a45; color: #93c5fd; text-decoration: none;
+    }
+    .btn-gm:hover { background: #253556; }
+
+    /* play-ops-aesthetic-v1/v2: low-fi security console, not a SaaS dashboard */
+    #play-layout {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 28px),
+        rgba(0, 0, 0, 0.18);
+    }
+    #play-topbar::before {
+      content: "SECURITY RELAY / CH-07";
+      color: var(--ops-amber);
+      border: 1px solid rgba(201, 164, 94, 0.34);
+      padding: 2px 6px;
+      line-height: 1;
+    }
+    #panel-header,
+    #stats,
+    #beat-status,
+    #step-guide,
+    #player-plan,
+    #action-log,
+    #hacker-comms,
+    details.llm-fold,
+    details.demo-panel,
+    #inject-panel {
+      background: var(--ops-panel);
+      border-color: var(--ops-line-soft);
+      border-radius: 0;
+      box-shadow: none;
+    }
+    #panel-header {
+      background:
+        linear-gradient(90deg, rgba(201, 164, 94, 0.08), transparent 58%),
+        #0d100b;
+    }
+    #panel-header h2 {
+      color: var(--ops-ink);
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    #panel-header h2::before { content: "CASE FILE / "; color: var(--ops-amber); }
+    #panel-header p,
+    #hacker-comms .comms-hint,
+    .field-label,
+    details.demo-panel summary {
+      color: var(--ops-muted);
+    }
+    #stats {
+      border-top: 1px solid rgba(151, 166, 132, 0.12);
+      border-bottom: 1px solid var(--ops-line-soft);
+    }
+    #stats span {
+      border-left: 1px solid rgba(151, 166, 132, 0.22);
+      padding-left: 7px;
+    }
+    .stat-label {
+      color: var(--ops-muted);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .stat-val {
+      color: var(--ops-ink);
+      font-weight: 500;
+    }
+    #player-plan h4,
+    #action-log h4,
+    #hacker-comms h4,
+    #inject-panel h4,
+    details.llm-fold summary {
+      color: var(--ops-amber);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    #player-plan h4::before { content: "INPUT / "; color: var(--ops-muted); }
+    #action-log h4::before { content: "BUFFER / "; color: var(--ops-muted); }
+    #hacker-comms h4::before { content: "COMMAND / "; color: var(--ops-muted); }
+    details#debug-trace {
+      margin: 0 12px 10px;
+      padding: 0 10px 8px;
+      border: 1px solid rgba(151, 166, 132, 0.22);
+      background: #080906;
+      flex-shrink: 0;
+    }
+    details#debug-trace summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 8px 0 6px;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ops-muted);
+    }
+    details#debug-trace summary::-webkit-details-marker { display: none; }
+    details#debug-trace[open] summary { color: var(--ops-amber); }
+    .beat-tag,
+    .mod-tag,
+    #llm-status-badge {
+      border-radius: 0;
+      background: #171208;
+      border: 1px solid rgba(201, 164, 94, 0.36);
+      color: var(--ops-amber);
+      font-weight: 500;
+    }
+    .btn,
+    .btn-gm,
+    #plan-input,
+    .field-input,
+    .field-select,
+    #plan-status {
+      border-radius: 0;
+      background: #080b08;
+      border: 1px solid rgba(151, 166, 132, 0.30);
+      color: var(--ops-text);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.45);
+    }
+    .btn {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 10px;
+    }
+    .btn-primary {
+      background: #181408;
+      border-color: rgba(201, 164, 94, 0.58);
+      color: var(--ops-ink);
+    }
+    .btn:hover,
+    .btn-gm:hover {
+      background: #12170f;
+      border-color: rgba(201, 164, 94, 0.62);
+    }
+    #plan-input {
+      min-height: 76px;
+      resize: vertical;
+    }
+    #action-log {
+      border-style: solid;
+      max-height: 128px;
+    }
+    #action-log h4 {
+      background: var(--ops-panel);
+    }
+    .log-entry {
+      border-bottom: 1px dotted rgba(151, 166, 132, 0.22);
+    }
+    .log-t {
+      color: rgba(201, 164, 94, 0.70);
+    }
+    .log-world,
+    .log-reaction {
+      color: #aeb8a4;
+    }
+    .log-director,
+    .log-beat {
+      color: #c8c8b6;
+    }
+    .log-tool,
+    .log-modifier {
+      color: var(--ops-amber);
+    }
+    .log-result {
+      color: #d58b7d;
+    }
+    #hacker-comms {
+      background: #070907;
+      border-left: 3px solid rgba(185, 95, 87, 0.42);
+    }
+    .hacker-empty {
+      color: rgba(140, 149, 127, 0.78);
+      border-left: 1px solid rgba(151, 166, 132, 0.22);
+      padding-left: 8px;
+    }
+    #hacker-analysis {
+      border-top: 1px solid rgba(201, 164, 94, 0.28);
+    }
+    #hacker-analysis .ha-label {
+      color: var(--ops-amber);
+      letter-spacing: 0.18em;
+    }
+    #hacker-analysis .ha-title {
+      color: var(--ops-ink);
+      font-weight: 500;
+    }
+    #hacker-analysis .ha-sub,
+    #hacker-analysis .ha-lines p,
+    #hacker-analysis .ha-wait {
+      color: var(--ops-muted);
+    }
+    #hacker-analysis .ha-aff {
+      color: #b9c6a8;
+    }
+    #map-canvas-wrap::before {
+      background:
+        linear-gradient(rgba(151, 166, 132, 0.040) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(151, 166, 132, 0.030) 1px, transparent 1px),
+        linear-gradient(135deg, rgba(201, 164, 94, 0.12) 0 1px, transparent 1px 22px);
+      background-size: 72px 72px, 72px 72px, 100% 100%;
+    }
+    #map-canvas-wrap::after {
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.42), transparent 18%, transparent 82%, rgba(0, 0, 0, 0.42)),
+        repeating-linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.020),
+          rgba(255, 255, 255, 0.020) 1px,
+          transparent 1px,
+          transparent 5px
+        );
+      opacity: 0.42;
+    }
+
+    /* play-ops-aesthetic-v2: stronger section identities */
+    #play-topbar {
+      background:
+        linear-gradient(90deg, rgba(201, 164, 94, 0.08), transparent 45%),
+        #050604;
+    }
+    #play-topbar::after {
+      content: "REC 00:00 / SENSOR GRID ACTIVE";
+      margin-left: auto;
+      color: rgba(201, 164, 94, 0.74);
+    }
+    #play-topbar .gm-link {
+      margin-left: 0 !important;
+    }
+    #map-canvas-wrap {
+      border-color: rgba(159, 184, 156, 0.42);
+    }
+    #map-canvas-wrap .edge-pan-hint {
+      display: none;
+    }
+    #map-canvas-wrap::before {
+      box-shadow:
+        inset 18px 0 24px rgba(201, 164, 94, 0.035),
+        inset -18px 0 24px rgba(201, 164, 94, 0.035);
+    }
+    #map-stage::before {
+      content: "SURVEILLANCE FEED / GALLERY-2F";
+      position: absolute;
+      margin: 8px 0 0 10px;
+      z-index: 4;
+      pointer-events: none;
+      color: rgba(201, 164, 94, 0.82);
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-shadow: 0 1px 2px #000;
+    }
+    #hacker-analysis {
+      background:
+        linear-gradient(90deg, rgba(201, 164, 94, 0.10), transparent 32%),
+        linear-gradient(180deg, #11120b, #070907);
+      border-top-color: rgba(201, 164, 94, 0.36);
+    }
+    #hacker-analysis::before {
+      content: "OBJECT DOSSIER";
+      color: rgba(201, 164, 94, 0.52);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      position: absolute;
+      right: 14px;
+      margin-top: -1px;
+      pointer-events: none;
+    }
+    #player-plan {
+      background:
+        linear-gradient(90deg, rgba(151, 166, 132, 0.09), transparent 48%),
+        #0a0d09;
+      border-left: 3px solid rgba(151, 166, 132, 0.52);
+    }
+    #player-plan h4::before {
+      content: "COMMAND / ";
+      color: var(--ops-cyan);
+    }
+    #plan-input {
+      background:
+        linear-gradient(180deg, rgba(151, 166, 132, 0.035), transparent 22px),
+        #040604;
+      border-color: rgba(151, 166, 132, 0.42);
+    }
+    #plan-context {
+      min-height: 26px;
+      margin-top: 6px;
+      font-size: 10px;
+      color: var(--ops-muted);
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    #plan-context .ctx-chip {
+      border: 1px solid rgba(201, 164, 94, 0.42);
+      color: var(--ops-ink);
+      background: #161208;
+      padding: 3px 7px;
+      letter-spacing: 0.08em;
+    }
+    #plan-context button {
+      border: 1px solid rgba(151, 166, 132, 0.30);
+      color: var(--ops-text);
+      background: #080b08;
+      padding: 3px 7px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 10px;
+    }
+    #hacker-quick-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .quick-action {
+      min-height: 34px;
+      border: 1px solid rgba(151, 166, 132, 0.34);
+      background: #070907;
+      color: var(--ops-text);
+      font: inherit;
+      font-size: 9px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 5px 6px;
+      text-align: left;
+    }
+    .quick-action span {
+      display: block;
+      color: var(--ops-amber);
+      font-size: 8px;
+      margin-bottom: 2px;
+    }
+    .quick-action[aria-disabled="true"] {
+      cursor: not-allowed;
+      color: rgba(140, 149, 127, 0.72);
+      border-color: rgba(151, 166, 132, 0.18);
+      background: #050605;
+    }
+    .quick-action[aria-disabled="true"] span {
+      color: rgba(201, 164, 94, 0.45);
+    }
+    #plan-validation {
+      margin-top: 6px;
+      min-height: 22px;
+      border-left: 1px solid rgba(151, 166, 132, 0.35);
+      padding-left: 8px;
+      color: var(--ops-muted);
+      font-size: 10px;
+      line-height: 1.45;
+    }
+    #plan-validation strong {
+      color: var(--ops-amber);
+      font-weight: 500;
+    }
+    #action-log {
+      background:
+        linear-gradient(180deg, rgba(201, 164, 94, 0.04), transparent 36px),
+        #080906;
+      border-left: 3px solid rgba(201, 164, 94, 0.52);
+    }
+    #action-log h4::before {
+      content: "DEBUG / ";
+      color: var(--ops-muted);
+    }
+    #hacker-comms {
+      background:
+        linear-gradient(90deg, rgba(185, 95, 87, 0.08), transparent 34%),
+        #070807;
+    }
+    #hacker-comms h4::before {
+      content: "FEED / ";
+      color: #c9826c;
+    }
+    #stats {
+      background:
+        linear-gradient(90deg, rgba(151, 166, 132, 0.06), transparent),
+        #070907;
+      border-left: 3px solid rgba(151, 166, 132, 0.32);
+    }
+    #beat-status {
+      background:
+        linear-gradient(90deg, rgba(201, 164, 94, 0.07), transparent),
+        #0d0d08;
+      border-left: 3px solid rgba(201, 164, 94, 0.32);
+    }
+    #step-guide {
+      background:
+        linear-gradient(90deg, rgba(151, 166, 132, 0.07), transparent),
+        #090c08;
+      border-left: 3px solid rgba(151, 166, 132, 0.42);
+    }
+    details.llm-fold {
+      border-left: 3px solid rgba(140, 149, 127, 0.28);
+    }
+    details.demo-panel {
+      border-left: 3px solid rgba(185, 95, 87, 0.28);
+      opacity: 0.86;
+    }
+    details.demo-panel[open] {
+      opacity: 1;
+    }
+
+    /* play-brief-command-radio-v1: Mission Brief overlay — 不改变布局 token */
+    #mission-brief-overlay,
+    #terminal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(2, 4, 3, 0.88);
+      backdrop-filter: blur(2px);
+    }
+    #mission-brief-overlay[hidden],
+    #terminal-overlay[hidden] {
+      display: none;
+      pointer-events: none;
+    }
+    #mission-brief-card,
+    #terminal-card {
+      width: min(520px, 92vw);
+      max-height: min(82vh, 640px);
+      overflow-y: auto;
+      border: 1px solid rgba(201, 164, 94, 0.48);
+      background:
+        linear-gradient(135deg, rgba(201, 164, 94, 0.10), transparent 42%),
+        linear-gradient(180deg, #11150f, #060806);
+      box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.65),
+        0 18px 48px rgba(0, 0, 0, 0.55);
+      padding: 18px 20px 16px;
+    }
+    #mission-brief-card h2,
+    #terminal-card h2 {
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ops-amber);
+      margin-bottom: 12px;
+    }
+    #mission-brief-card h2::before {
+      content: "CASE FILE / ";
+      color: var(--ops-muted);
+    }
+    #terminal-card h2::before {
+      content: "MISSION RESULT / ";
+      color: var(--ops-muted);
+    }
+    #mission-brief-body p,
+    #terminal-summary {
+      font-size: 12px;
+      line-height: 1.65;
+      color: var(--ops-text);
+      margin-bottom: 8px;
+      border-left: 1px solid rgba(151, 166, 132, 0.28);
+      padding-left: 10px;
+    }
+    #mission-brief-actions,
+    #terminal-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    #btn-mission-brief-top {
+      margin-left: 0;
+      border: 1px solid rgba(201, 164, 94, 0.42);
+      background: #12170f;
+      color: var(--ops-amber);
+      padding: 3px 8px;
+      font: inherit;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    #btn-mission-brief-top:hover {
+      border-color: rgba(201, 164, 94, 0.72);
+      color: var(--ops-ink);
+    }
+  </style>
+</head>
+<body>
+  <div id="play-layout">
+    <header id="play-topbar">
+      <strong>Balcony Job</strong>
+      <span class="build-tag" id="build-tag-top">play-parallel-operation-v1</span>
+      <button type="button" id="btn-mission-brief-top">MISSION BRIEF</button>
+      <span>OPS CHANNEL · 远程骇入视图</span>
+      <a class="gm-link" href="/gm" style="margin-left:auto">GM 工具</a>
+    </header>
+    <div id="play-body">
+      <div id="map-stage">
+        <div id="map-canvas-wrap">
+          <canvas id="canvas" width="1120" height="800"></canvas>
+        </div>
+        <footer id="hacker-analysis">
+          <div class="ha-label">◉ HACKER ANALYSIS</div>
+          <div id="hacker-analysis-body"></div>
+        </footer>
+      </div>
+      <div id="panel">
+      <div id="panel-header">
+        <h2>Balcony Job</h2>
+        <p id="build-tag" style="color:#c9a45e;font-size:10px;margin-bottom:4px">play-parallel-operation-v1</p>
+        <p>你是幕后 <strong>Hacker</strong>。配 Key、点地图、写指令并发送即可推进。</p>
+        <a class="btn-gm" href="/gm">GM 工具 / 开发对照</a>
+      </div>
+      <details id="llm-fold" class="llm-fold">
+        <summary>
+          <span>AI 接入</span>
+          <span id="llm-status-badge">未配置</span>
+        </summary>
+        <section id="llm-settings">
+          <label class="field-label" for="llm-provider">供应商</label>
+          <select id="llm-provider" class="field-select"></select>
+          <p id="llm-provider-hint" style="font-size:10px;color:#64748b;margin-top:4px"></p>
+          <label class="field-label" for="llm-model">模型 ID</label>
+          <input id="llm-model" class="field-input" type="text" />
+          <div id="llm-base-row" style="display:none">
+            <label class="field-label" for="llm-base-url">Base URL</label>
+            <input id="llm-base-url" class="field-input" type="text" placeholder="https://…/v1" />
+          </div>
+          <label class="field-label" for="llm-api-key">API Key（仅存本机浏览器）</label>
+          <input id="llm-api-key" class="field-input" type="password" autocomplete="off" />
+          <div class="panel-actions">
+            <button type="button" class="btn btn-primary" id="llm-save" style="flex:0 1 auto">保存</button>
+            <button type="button" class="btn" id="llm-test" style="flex:0 1 auto">测试连通</button>
+            <button type="button" class="btn" id="llm-clear" style="flex:0 1 auto">清除</button>
+          </div>
+          <p id="llm-test-result"></p>
+          <span id="llm-save-flash" style="font-size:10px;color:#86efac"></span>
+        </section>
+      </details>
+      <section id="player-plan">
+        <h4>输入指令</h4>
+        <textarea id="plan-input" placeholder="例：先伪造阳台私密短信，再让 Face 把目标引到阳台……"></textarea>
+        <div id="plan-context">MAP REF / 未选中</div>
+        <div id="plan-validation"></div>
+        <div id="hacker-quick-actions" aria-label="Hacker quick actions"></div>
+        <p id="plan-status"></p>
+        <div class="panel-actions">
+          <button type="button" class="btn btn-primary" id="btn-submit-plan">发送指令</button>
+          <button type="button" class="btn" id="btn-reset-player">重置局面</button>
+        </div>
+      </section>
+      <div id="hacker-comms">
+        <h4>◉ COMMAND FEED</h4>
+        <p class="comms-hint">YOU / EXEC / WORLD / 干员回复 / NEXT — 主反馈通道；点选实体请看地图下方骇入分析。</p>
+        <div id="hacker-feed"></div>
+      </div>
+      <details id="debug-trace">
+        <summary>DEBUG TRACE</summary>
+        <div id="action-log">
+          <h4>TRACE</h4>
+          <div id="log"></div>
+        </div>
+      </details>
+      <div id="stats">
+        <span><span class="stat-label">回合</span> <span class="stat-val" id="stat-turn">0</span></span>
+        <span><span class="stat-label">警戒</span> <span class="stat-val" id="stat-alert">calm</span></span>
+        <span><span class="stat-label">怀疑</span> <span class="stat-val" id="stat-suspicion">0</span></span>
+        <span><span class="stat-label">张力</span> <span class="stat-val" id="stat-tension">0</span></span>
+        <span><span class="stat-label">终态</span> <span class="stat-val" id="stat-terminal">—</span></span>
+      </div>
+      <div id="beat-status"><span class="beat-tag">加载场景…</span></div>
+      <div id="step-guide">
+        <div id="step-guide-body">加载中…</div>
+        <div class="step-cta">点地图看下方骇入分析 → 写指令并发送；右侧 Command Feed 为主反馈</div>
+      </div>
+      <details class="demo-panel">
+        <summary>路线演示（GM 点步，非玩家主路径）</summary>
+        <div id="route-row" style="margin-top:8px">
+          <label for="route-select">路线</label>
+          <select id="route-select" class="field-select" style="margin-top:0">
+            <option value="route_a">A · 私人邀约</option>
+            <option value="route_b">B · 配电停电</option>
+            <option value="route_c">C · 清洁车挡视线</option>
+          </select>
+        </div>
+        <div id="beat-status-demo" style="margin-top:8px;min-height:32px"><span class="beat-tag">演示未启动</span></div>
+        <div id="mod-tags"></div>
+        <div id="inject-panel" style="margin-top:8px">
+          <h4>🃏 注入队列</h4>
+          <div id="inject-queue"></div>
+        </div>
+        <div class="panel-actions" style="margin-top:8px">
+          <button type="button" class="btn btn-primary" id="btn-step">执行演示步</button>
+          <button type="button" class="btn" id="btn-reset-demo">重置演示</button>
+        </div>
+      </details>
+      </div>
+    </div>
+  </div>
+  <div id="mission-brief-overlay" hidden aria-hidden="true">
+    <div id="mission-brief-card" role="dialog" aria-labelledby="mission-brief-title">
+      <h2 id="mission-brief-title">MISSION BRIEF</h2>
+      <div id="mission-brief-body"></div>
+      <div id="mission-brief-actions">
+        <button type="button" class="btn btn-primary" id="btn-mission-brief-start">开始行动</button>
+        <button type="button" class="btn" id="btn-mission-brief-close">关闭</button>
+      </div>
+    </div>
+  </div>
+  <div id="terminal-overlay" hidden aria-hidden="true">
+    <div id="terminal-card" role="dialog" aria-labelledby="terminal-title">
+      <h2 id="terminal-title">MISSION RESULT</h2>
+      <p id="terminal-summary"></p>
+      <div id="terminal-actions">
+        <button type="button" class="btn btn-primary" id="btn-terminal-continue">继续观察</button>
+        <button type="button" class="btn" id="btn-terminal-reset">重置局面</button>
+      </div>
+    </div>
+  </div>
+  <script src="/play/dist/hitman-core.js?v=play-parallel-operation-v1"></script>
+  <script src="/play/js/config.js?v=play-parallel-operation-v1"></script>
+  <script src="/play/js/shell.js?v=play-parallel-operation-v1"></script>
+  <script src="/play/js/shell-log.js?v=play-parallel-operation-v1"></script>
+  <script src="/play/js/sprite-loader.js?v=play-parallel-operation-v1"></script>
+  <script src="/play/js/render.js?v=play-parallel-operation-v1"></script>
+  <script src="/play/js/presentation-cues.js?v=play-parallel-operation-v1"></script>
+  <script src="/play/js/playback-driver.js?v=play-parallel-operation-v1"></script>
+  <script src="/play/js/llm-settings.js?v=play-parallel-operation-v1"></script>
+  <script src="/play/js/mission-brief.js?v=play-parallel-operation-v1"></script>
+  <script src="/play/js/player-plan.js?v=play-parallel-operation-v1"></script>
+  <script src="/play/js/map-pick.js?v=play-parallel-operation-v1"></script>
+  <script src="/play/js/hacker-feed.js?v=play-parallel-operation-v1"></script>
+  <script src="/play/js/world-lerp.js?v=play-parallel-operation-v1"></script>
+  <script>
+    initShell();
+  </script>
+</body>
+</html>

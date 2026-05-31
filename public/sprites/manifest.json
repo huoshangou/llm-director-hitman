@@ -1,0 +1,2130 @@
+{
+  "version": 2,
+  "map": {
+    "background": "/sprites/map/gallery_event_map.png",
+    "sourceImage": "/sprites/sheets/sheet-a-gallery-map.png",
+    "sourceSize": {
+      "width": 1891,
+      "height": 832
+    }
+  },
+  "locationHighlights": [
+    {
+      "locationId": "kitchen",
+      "path": "/sprites/map/location_highlight_kitchen.png",
+      "polygon": [
+        [
+          45,
+          105
+        ],
+        [
+          425,
+          105
+        ],
+        [
+          425,
+          720
+        ],
+        [
+          45,
+          720
+        ]
+      ]
+    },
+    {
+      "locationId": "bar",
+      "path": "/sprites/map/location_highlight_bar.png",
+      "polygon": [
+        [
+          405,
+          95
+        ],
+        [
+          760,
+          95
+        ],
+        [
+          765,
+          710
+        ],
+        [
+          405,
+          720
+        ]
+      ]
+    },
+    {
+      "locationId": "lobby",
+      "path": "/sprites/map/location_highlight_lobby.png",
+      "polygon": [
+        [
+          740,
+          70
+        ],
+        [
+          1075,
+          70
+        ],
+        [
+          1080,
+          775
+        ],
+        [
+          735,
+          775
+        ]
+      ]
+    },
+    {
+      "locationId": "gallery",
+      "path": "/sprites/map/location_highlight_gallery.png",
+      "polygon": [
+        [
+          1075,
+          70
+        ],
+        [
+          1490,
+          70
+        ],
+        [
+          1495,
+          690
+        ],
+        [
+          1080,
+          690
+        ]
+      ]
+    },
+    {
+      "locationId": "balcony",
+      "path": "/sprites/map/location_highlight_balcony.png",
+      "polygon": [
+        [
+          1480,
+          150
+        ],
+        [
+          1805,
+          170
+        ],
+        [
+          1800,
+          690
+        ],
+        [
+          1490,
+          690
+        ]
+      ]
+    }
+  ],
+  "sheets": {
+    "A": "/sprites/sheets/sheet-a-gallery-map.png",
+    "B": "/sprites/sheets/sheet-b-core-characters.png",
+    "C": "/sprites/sheets/sheet-c-support-objects.png",
+    "D": "/sprites/sheets/sheet-d-overlays-icons.png"
+  },
+  "assets": [
+    {
+      "id": "face_idle",
+      "name": "face",
+      "type": "character",
+      "state": "idle",
+      "path": "/sprites/characters/face_idle.png",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 90,
+        "y": 5,
+        "w": 142,
+        "h": 329
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 118,
+        "h": 317
+      },
+      "tags": [
+        "face",
+        "core"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "face_talking",
+      "name": "face",
+      "type": "character",
+      "state": "talking",
+      "path": "/sprites/characters/face_talking.png",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 49,
+        "y": 307,
+        "w": 182,
+        "h": 332
+      },
+      "trim": {
+        "x": 12,
+        "y": 0,
+        "w": 157,
+        "h": 332
+      },
+      "tags": [
+        "face",
+        "social"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "face_confident",
+      "name": "face",
+      "type": "character",
+      "state": "confident",
+      "path": "/sprites/characters/face_confident.png",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 85,
+        "y": 609,
+        "w": 136,
+        "h": 332
+      },
+      "trim": {
+        "x": 12,
+        "y": 0,
+        "w": 112,
+        "h": 332
+      },
+      "tags": [
+        "face",
+        "social"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "face_exposed",
+      "name": "face",
+      "type": "character",
+      "state": "exposed",
+      "path": "/sprites/characters/face_exposed.png",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 52,
+        "y": 907,
+        "w": 196,
+        "h": 334
+      },
+      "trim": {
+        "x": 12,
+        "y": 0,
+        "w": 172,
+        "h": 322
+      },
+      "tags": [
+        "face",
+        "risk"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "runner_idle",
+      "name": "runner",
+      "type": "character",
+      "state": "idle",
+      "path": "/sprites/characters/runner_idle.png",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 367,
+        "y": 7,
+        "w": 147,
+        "h": 316
+      },
+      "trim": {
+        "x": 12,
+        "y": 13,
+        "w": 123,
+        "h": 291
+      },
+      "tags": [
+        "runner",
+        "core"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "runner_moving",
+      "name": "runner",
+      "type": "character",
+      "state": "moving",
+      "path": "/sprites/characters/runner_moving.png",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 319,
+        "y": 310,
+        "w": 223,
+        "h": 281
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 199,
+        "h": 257
+      },
+      "tags": [
+        "runner",
+        "movement"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "runner_disguised_waiter",
+      "name": "runner",
+      "type": "character",
+      "state": "disguised_waiter",
+      "path": "/sprites/characters/runner_disguised_waiter.png",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 330,
+        "y": 591,
+        "w": 155,
+        "h": 331
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 131,
+        "h": 307
+      },
+      "tags": [
+        "runner",
+        "disguise",
+        "waiter"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "runner_interacting",
+      "name": "runner",
+      "type": "character",
+      "state": "interacting",
+      "path": "/sprites/characters/runner_interacting.png",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 325,
+        "y": 910,
+        "w": 216,
+        "h": 309
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 192,
+        "h": 285
+      },
+      "tags": [
+        "runner",
+        "tool"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "target_idle",
+      "name": "target",
+      "type": "character",
+      "state": "idle",
+      "path": "/sprites/characters/target_idle.png",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 693,
+        "y": 8,
+        "w": 137,
+        "h": 327
+      },
+      "trim": {
+        "x": 13,
+        "y": 12,
+        "w": 112,
+        "h": 315
+      },
+      "tags": [
+        "target",
+        "core"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "target_checking_phone",
+      "name": "target",
+      "type": "character",
+      "state": "checking_phone",
+      "path": "/sprites/characters/target_checking_phone.png",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 674,
+        "y": 311,
+        "w": 155,
+        "h": 328
+      },
+      "trim": {
+        "x": 12,
+        "y": 0,
+        "w": 131,
+        "h": 328
+      },
+      "tags": [
+        "target",
+        "phone"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "target_holding_drink",
+      "name": "target",
+      "type": "character",
+      "state": "holding_drink",
+      "path": "/sprites/characters/target_holding_drink.png",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 668,
+        "y": 608,
+        "w": 151,
+        "h": 321
+      },
+      "trim": {
+        "x": 12,
+        "y": 0,
+        "w": 127,
+        "h": 321
+      },
+      "tags": [
+        "target",
+        "drink"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "target_moving_to_balcony",
+      "name": "target",
+      "type": "character",
+      "state": "moving_to_balcony",
+      "path": "/sprites/characters/target_moving_to_balcony.png",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 625,
+        "y": 906,
+        "w": 241,
+        "h": 305
+      },
+      "trim": {
+        "x": 12,
+        "y": 0,
+        "w": 217,
+        "h": 293
+      },
+      "tags": [
+        "target",
+        "movement",
+        "balcony"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guard_watching",
+      "name": "guard",
+      "type": "character",
+      "state": "watching",
+      "path": "/sprites/characters/guard_watching.png",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 992,
+        "y": 0,
+        "w": 153,
+        "h": 334
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 129,
+        "h": 322
+      },
+      "tags": [
+        "guard",
+        "sight"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guard_distracted",
+      "name": "guard",
+      "type": "character",
+      "state": "distracted",
+      "path": "/sprites/characters/guard_distracted.png",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 981,
+        "y": 307,
+        "w": 161,
+        "h": 335
+      },
+      "trim": {
+        "x": 12,
+        "y": 0,
+        "w": 137,
+        "h": 323
+      },
+      "tags": [
+        "guard",
+        "attention"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guard_investigating",
+      "name": "guard",
+      "type": "character",
+      "state": "investigating",
+      "path": "/sprites/characters/guard_investigating.png",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 963,
+        "y": 623,
+        "w": 198,
+        "h": 305
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 174,
+        "h": 293
+      },
+      "tags": [
+        "guard",
+        "search"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guard_alarmed",
+      "name": "guard",
+      "type": "character",
+      "state": "alarmed",
+      "path": "/sprites/characters/guard_alarmed.png",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 966,
+        "y": 904,
+        "w": 196,
+        "h": 340
+      },
+      "trim": {
+        "x": 12,
+        "y": 0,
+        "w": 172,
+        "h": 327
+      },
+      "tags": [
+        "guard",
+        "alert"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "waiter_idle",
+      "name": "waiter",
+      "type": "character",
+      "state": "idle",
+      "path": "/sprites/characters/waiter_idle.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 35,
+        "y": 19,
+        "w": 151,
+        "h": 290
+      },
+      "trim": {
+        "x": 12,
+        "y": 13,
+        "w": 127,
+        "h": 265
+      },
+      "tags": [
+        "waiter",
+        "staff"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "waiter_moving",
+      "name": "waiter",
+      "type": "character",
+      "state": "moving",
+      "path": "/sprites/characters/waiter_moving.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 192,
+        "y": 21,
+        "w": 157,
+        "h": 289
+      },
+      "trim": {
+        "x": 12,
+        "y": 13,
+        "w": 133,
+        "h": 264
+      },
+      "tags": [
+        "waiter",
+        "staff",
+        "movement"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "waiter_confused",
+      "name": "waiter",
+      "type": "character",
+      "state": "confused",
+      "path": "/sprites/characters/waiter_confused.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 353,
+        "y": 20,
+        "w": 130,
+        "h": 297
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 106,
+        "h": 273
+      },
+      "tags": [
+        "waiter",
+        "staff",
+        "confused"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "cleaner_idle",
+      "name": "cleaner",
+      "type": "character",
+      "state": "idle",
+      "path": "/sprites/characters/cleaner_idle.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 502,
+        "y": 38,
+        "w": 138,
+        "h": 278
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 114,
+        "h": 254
+      },
+      "tags": [
+        "cleaner",
+        "staff"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "cleaner_cleaning",
+      "name": "cleaner",
+      "type": "character",
+      "state": "cleaning",
+      "path": "/sprites/characters/cleaner_cleaning.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 653,
+        "y": 39,
+        "w": 203,
+        "h": 273
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 191,
+        "h": 249
+      },
+      "tags": [
+        "cleaner",
+        "staff",
+        "cleaning"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "cleaner_pushing_cart",
+      "name": "cleaner",
+      "type": "character",
+      "state": "pushing_cart",
+      "path": "/sprites/characters/cleaner_pushing_cart.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 834,
+        "y": 36,
+        "w": 166,
+        "h": 290
+      },
+      "trim": {
+        "x": 0,
+        "y": 12,
+        "w": 154,
+        "h": 266
+      },
+      "tags": [
+        "cleaner",
+        "staff",
+        "cart"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guest_cluster_idle",
+      "name": "guest_cluster",
+      "type": "character",
+      "state": "idle",
+      "path": "/sprites/characters/guest_cluster_idle.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 980,
+        "y": 48,
+        "w": 163,
+        "h": 273
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 151,
+        "h": 249
+      },
+      "tags": [
+        "guest",
+        "crowd"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guest_cluster_watching",
+      "name": "guest_cluster",
+      "type": "character",
+      "state": "watching",
+      "path": "/sprites/characters/guest_cluster_watching.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1120,
+        "y": 48,
+        "w": 174,
+        "h": 273
+      },
+      "trim": {
+        "x": 0,
+        "y": 12,
+        "w": 162,
+        "h": 249
+      },
+      "tags": [
+        "guest",
+        "crowd",
+        "watching"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guest_cluster_startled",
+      "name": "guest_cluster",
+      "type": "character",
+      "state": "startled",
+      "path": "/sprites/characters/guest_cluster_startled.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1290,
+        "y": 50,
+        "w": 227,
+        "h": 272
+      },
+      "trim": {
+        "x": 10,
+        "y": 12,
+        "w": 205,
+        "h": 247
+      },
+      "tags": [
+        "guest",
+        "crowd",
+        "alert"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guest_list_terminal_normal",
+      "name": "guest_list_terminal",
+      "type": "object",
+      "state": "normal",
+      "path": "/sprites/objects/guest_list_terminal_normal.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 31,
+        "y": 313,
+        "w": 188,
+        "h": 255
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 164,
+        "h": 231
+      },
+      "tags": [
+        "terminal",
+        "info"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guest_list_terminal_modified",
+      "name": "guest_list_terminal",
+      "type": "object",
+      "state": "modified",
+      "path": "/sprites/objects/guest_list_terminal_modified.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 235,
+        "y": 313,
+        "w": 187,
+        "h": 255
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 163,
+        "h": 231
+      },
+      "tags": [
+        "terminal",
+        "hacked"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guest_list_terminal_error",
+      "name": "guest_list_terminal",
+      "type": "object",
+      "state": "error",
+      "path": "/sprites/objects/guest_list_terminal_error.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 438,
+        "y": 313,
+        "w": 188,
+        "h": 255
+      },
+      "trim": {
+        "x": 13,
+        "y": 12,
+        "w": 163,
+        "h": 231
+      },
+      "tags": [
+        "terminal",
+        "error"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "wine_glass_clean",
+      "name": "wine_glass",
+      "type": "object",
+      "state": "clean",
+      "path": "/sprites/objects/wine_glass_clean.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 672,
+        "y": 340,
+        "w": 109,
+        "h": 217
+      },
+      "trim": {
+        "x": 12,
+        "y": 10,
+        "w": 85,
+        "h": 194
+      },
+      "tags": [
+        "wine",
+        "glass"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "wine_glass_served",
+      "name": "wine_glass",
+      "type": "object",
+      "state": "served",
+      "path": "/sprites/objects/wine_glass_served.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 842,
+        "y": 339,
+        "w": 112,
+        "h": 218
+      },
+      "trim": {
+        "x": 12,
+        "y": 10,
+        "w": 88,
+        "h": 196
+      },
+      "tags": [
+        "wine",
+        "glass",
+        "served"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "wine_glass_spilled",
+      "name": "wine_glass",
+      "type": "object",
+      "state": "spilled",
+      "path": "/sprites/objects/wine_glass_spilled.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1005,
+        "y": 427,
+        "w": 223,
+        "h": 144
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 199,
+        "h": 120
+      },
+      "tags": [
+        "wine",
+        "spill"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "wine_bottle_normal",
+      "name": "wine_bottle",
+      "type": "object",
+      "state": "normal",
+      "path": "/sprites/objects/wine_bottle_normal.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1290,
+        "y": 335,
+        "w": 100,
+        "h": 235
+      },
+      "trim": {
+        "x": 15,
+        "y": 12,
+        "w": 70,
+        "h": 209
+      },
+      "tags": [
+        "wine",
+        "bottle"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "waiter_uniform_available",
+      "name": "waiter_uniform",
+      "type": "object",
+      "state": "available",
+      "path": "/sprites/objects/waiter_uniform_available.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 41,
+        "y": 568,
+        "w": 122,
+        "h": 250
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 98,
+        "h": 226
+      },
+      "tags": [
+        "uniform",
+        "disguise"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "waiter_uniform_taken",
+      "name": "waiter_uniform",
+      "type": "object",
+      "state": "taken",
+      "path": "/sprites/objects/waiter_uniform_taken.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 173,
+        "y": 568,
+        "w": 121,
+        "h": 250
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 97,
+        "h": 226
+      },
+      "tags": [
+        "uniform",
+        "disguise",
+        "taken"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "cleaning_cart_idle",
+      "name": "cleaning_cart",
+      "type": "object",
+      "state": "idle",
+      "path": "/sprites/objects/cleaning_cart_idle.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 315,
+        "y": 566,
+        "w": 195,
+        "h": 235
+      },
+      "trim": {
+        "x": 2,
+        "y": 12,
+        "w": 193,
+        "h": 211
+      },
+      "tags": [
+        "cart",
+        "cleaning"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "cleaning_cart_blocking",
+      "name": "cleaning_cart",
+      "type": "object",
+      "state": "blocking",
+      "path": "/sprites/objects/cleaning_cart_blocking.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 470,
+        "y": 566,
+        "w": 250,
+        "h": 261
+      },
+      "trim": {
+        "x": 1,
+        "y": 12,
+        "w": 234,
+        "h": 237
+      },
+      "tags": [
+        "cart",
+        "sightline_blocked"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "power_panel_normal",
+      "name": "power_panel",
+      "type": "object",
+      "state": "normal",
+      "path": "/sprites/objects/power_panel_normal.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 720,
+        "y": 580,
+        "w": 150,
+        "h": 240
+      },
+      "trim": {
+        "x": 11,
+        "y": 14,
+        "w": 128,
+        "h": 205
+      },
+      "tags": [
+        "power",
+        "panel"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "power_panel_tampered",
+      "name": "power_panel",
+      "type": "object",
+      "state": "tampered",
+      "path": "/sprites/objects/power_panel_tampered.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 880,
+        "y": 584,
+        "w": 155,
+        "h": 235
+      },
+      "trim": {
+        "x": 11,
+        "y": 12,
+        "w": 130,
+        "h": 211
+      },
+      "tags": [
+        "power",
+        "tampered"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "hallway_camera_active",
+      "name": "hallway_camera",
+      "type": "object",
+      "state": "active",
+      "path": "/sprites/objects/hallway_camera_active.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1042,
+        "y": 613,
+        "w": 170,
+        "h": 184
+      },
+      "trim": {
+        "x": 13,
+        "y": 12,
+        "w": 157,
+        "h": 160
+      },
+      "tags": [
+        "camera",
+        "active"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "hallway_camera_looped",
+      "name": "hallway_camera",
+      "type": "object",
+      "state": "looped",
+      "path": "/sprites/objects/hallway_camera_looped.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1186,
+        "y": 613,
+        "w": 170,
+        "h": 184
+      },
+      "trim": {
+        "x": 0,
+        "y": 12,
+        "w": 158,
+        "h": 160
+      },
+      "tags": [
+        "camera",
+        "looped"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "hallway_camera_disabled",
+      "name": "hallway_camera",
+      "type": "object",
+      "state": "disabled",
+      "path": "/sprites/objects/hallway_camera_disabled.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1343,
+        "y": 613,
+        "w": 170,
+        "h": 184
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 146,
+        "h": 160
+      },
+      "tags": [
+        "camera",
+        "disabled"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "balcony_rail_normal",
+      "name": "balcony_rail",
+      "type": "object",
+      "state": "normal",
+      "path": "/sprites/objects/balcony_rail_normal.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 33,
+        "y": 808,
+        "w": 331,
+        "h": 200
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 307,
+        "h": 176
+      },
+      "tags": [
+        "balcony",
+        "rail"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "balcony_rail_tampered",
+      "name": "balcony_rail",
+      "type": "object",
+      "state": "tampered",
+      "path": "/sprites/objects/balcony_rail_tampered.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 398,
+        "y": 809,
+        "w": 326,
+        "h": 198
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 301,
+        "h": 174
+      },
+      "tags": [
+        "balcony",
+        "rail",
+        "tampered"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "target_phone_idle",
+      "name": "target_phone",
+      "type": "object",
+      "state": "idle",
+      "path": "/sprites/objects/target_phone_idle.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 769,
+        "y": 813,
+        "w": 188,
+        "h": 193
+      },
+      "trim": {
+        "x": 13,
+        "y": 12,
+        "w": 163,
+        "h": 169
+      },
+      "tags": [
+        "phone",
+        "target"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "target_phone_message_received",
+      "name": "target_phone",
+      "type": "object",
+      "state": "message_received",
+      "path": "/sprites/objects/target_phone_message_received.png",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 988,
+        "y": 809,
+        "w": 190,
+        "h": 197
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 166,
+        "h": 173
+      },
+      "tags": [
+        "phone",
+        "message"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guard_sight_cone",
+      "name": "guard_sight_cone",
+      "type": "overlay",
+      "state": "visible",
+      "path": "/sprites/overlays/guard_sight_cone.png",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 57,
+        "y": 114,
+        "w": 302,
+        "h": 257
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 278,
+        "h": 233
+      },
+      "tags": [
+        "guard",
+        "sight",
+        "cone"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "blocked_sight_cone",
+      "name": "blocked_sight_cone",
+      "type": "overlay",
+      "state": "blocked",
+      "path": "/sprites/overlays/blocked_sight_cone.png",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 373,
+        "y": 115,
+        "w": 295,
+        "h": 260
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 271,
+        "h": 236
+      },
+      "tags": [
+        "guard",
+        "sight",
+        "blocked"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "attention_arrow",
+      "name": "attention_arrow",
+      "type": "overlay",
+      "state": "normal",
+      "path": "/sprites/overlays/attention_arrow.png",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 697,
+        "y": 140,
+        "w": 179,
+        "h": 230
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 155,
+        "h": 206
+      },
+      "tags": [
+        "attention",
+        "arrow"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "suspicion_icon",
+      "name": "suspicion_icon",
+      "type": "overlay",
+      "state": "question",
+      "path": "/sprites/overlays/suspicion_icon.png",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 959,
+        "y": 147,
+        "w": 212,
+        "h": 212
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 188,
+        "h": 188
+      },
+      "tags": [
+        "suspicion",
+        "question"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "alert_icon",
+      "name": "alert_icon",
+      "type": "overlay",
+      "state": "alert",
+      "path": "/sprites/overlays/alert_icon.png",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1224,
+        "y": 145,
+        "w": 229,
+        "h": 232
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 205,
+        "h": 208
+      },
+      "tags": [
+        "alert",
+        "risk"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "hacked_icon",
+      "name": "hacked_icon",
+      "type": "overlay",
+      "state": "success",
+      "path": "/sprites/overlays/hacked_icon.png",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 127,
+        "y": 424,
+        "w": 193,
+        "h": 187
+      },
+      "trim": {
+        "x": 0,
+        "y": 10,
+        "w": 193,
+        "h": 177
+      },
+      "tags": [
+        "hacked",
+        "info"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "fake_message_icon",
+      "name": "fake_message_icon",
+      "type": "overlay",
+      "state": "active",
+      "path": "/sprites/overlays/fake_message_icon.png",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 395,
+        "y": 443,
+        "w": 231,
+        "h": 193
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 207,
+        "h": 169
+      },
+      "tags": [
+        "message",
+        "fake"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "disguise_icon",
+      "name": "disguise_icon",
+      "type": "overlay",
+      "state": "active",
+      "path": "/sprites/overlays/disguise_icon.png",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 684,
+        "y": 426,
+        "w": 207,
+        "h": 193
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 183,
+        "h": 181
+      },
+      "tags": [
+        "disguise",
+        "social"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "route_arrow",
+      "name": "route_arrow",
+      "type": "overlay",
+      "state": "bias",
+      "path": "/sprites/overlays/route_arrow.png",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 970,
+        "y": 420,
+        "w": 205,
+        "h": 210
+      },
+      "trim": {
+        "x": 0,
+        "y": 15,
+        "w": 192,
+        "h": 195
+      },
+      "tags": [
+        "route",
+        "bias",
+        "movement"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "opportunity_window",
+      "name": "opportunity_window",
+      "type": "overlay",
+      "state": "open",
+      "path": "/sprites/overlays/opportunity_window.png",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1230,
+        "y": 427,
+        "w": 220,
+        "h": 211
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 193,
+        "h": 187
+      },
+      "tags": [
+        "opportunity",
+        "window"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "accident_ready",
+      "name": "accident_ready",
+      "type": "overlay",
+      "state": "ready",
+      "path": "/sprites/overlays/accident_ready.png",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 35,
+        "y": 695,
+        "w": 190,
+        "h": 200
+      },
+      "trim": {
+        "x": 4,
+        "y": 12,
+        "w": 176,
+        "h": 174
+      },
+      "tags": [
+        "accident",
+        "ready"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "spill_overlay",
+      "name": "spill_overlay",
+      "type": "overlay",
+      "state": "spilled",
+      "path": "/sprites/overlays/spill_overlay.png",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 235,
+        "y": 720,
+        "w": 205,
+        "h": 161
+      },
+      "trim": {
+        "x": 1,
+        "y": 12,
+        "w": 192,
+        "h": 146
+      },
+      "tags": [
+        "spill",
+        "wine"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "noise_pulse",
+      "name": "noise_pulse",
+      "type": "overlay",
+      "state": "pulse",
+      "path": "/sprites/overlays/noise_pulse.png",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 445,
+        "y": 718,
+        "w": 205,
+        "h": 158
+      },
+      "trim": {
+        "x": 2,
+        "y": 12,
+        "w": 189,
+        "h": 134
+      },
+      "tags": [
+        "noise",
+        "pulse"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "private_meeting_belief",
+      "name": "private_meeting_belief",
+      "type": "overlay",
+      "state": "belief",
+      "path": "/sprites/overlays/private_meeting_belief.png",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 640,
+        "y": 697,
+        "w": 225,
+        "h": 204
+      },
+      "trim": {
+        "x": 12,
+        "y": 12,
+        "w": 201,
+        "h": 180
+      },
+      "tags": [
+        "belief",
+        "meeting"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "admin_service_issue_icon",
+      "name": "admin_service_issue_icon",
+      "type": "overlay",
+      "state": "issue",
+      "path": "/sprites/overlays/admin_service_issue_icon.png",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 875,
+        "y": 708,
+        "w": 186,
+        "h": 188
+      },
+      "trim": {
+        "x": 8,
+        "y": 12,
+        "w": 166,
+        "h": 164
+      },
+      "tags": [
+        "admin",
+        "service",
+        "issue"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "camera_loop",
+      "name": "camera_loop",
+      "type": "overlay",
+      "state": "looped",
+      "path": "/sprites/overlays/camera_loop.png",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1090,
+        "y": 690,
+        "w": 195,
+        "h": 217
+      },
+      "trim": {
+        "x": 9,
+        "y": 10,
+        "w": 173,
+        "h": 195
+      },
+      "tags": [
+        "camera",
+        "loop"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "evidence_risk",
+      "name": "evidence_risk",
+      "type": "overlay",
+      "state": "risk",
+      "path": "/sprites/overlays/evidence_risk.png",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1300,
+        "y": 704,
+        "w": 200,
+        "h": 207
+      },
+      "trim": {
+        "x": 9,
+        "y": 12,
+        "w": 179,
+        "h": 183
+      },
+      "tags": [
+        "evidence",
+        "risk"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  ]
+}

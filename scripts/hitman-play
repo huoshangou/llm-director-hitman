@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# 兼容旧习惯：优先 ~/hitman，避免 Documents 下 Operation not permitted
+set -euo pipefail
+ROOT="${HITMAN_ROOT:-$HOME/hitman}"
+if [[ -f "$ROOT/package.json" && -x "$ROOT/node_modules/.bin/tsx" ]]; then
+  cd "$ROOT"
+  exec "$ROOT/node_modules/.bin/tsx" "$ROOT/scripts/dev-server.ts"
+fi
+HERE="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$HERE"
+exec "$HERE/node_modules/.bin/tsx" "$HERE/scripts/dev-server.ts"

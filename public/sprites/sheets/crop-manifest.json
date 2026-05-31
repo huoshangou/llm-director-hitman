@@ -1,0 +1,1571 @@
+{
+  "version": 1,
+  "sourceWorkflow": "/tools/asset-cutter",
+  "assets": [
+    {
+      "id": "face_idle",
+      "name": "face",
+      "type": "character",
+      "state": "idle",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 90,
+        "y": 5,
+        "w": 142,
+        "h": 329
+      },
+      "tags": [
+        "face",
+        "core"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "face_talking",
+      "name": "face",
+      "type": "character",
+      "state": "talking",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 49,
+        "y": 307,
+        "w": 182,
+        "h": 332
+      },
+      "tags": [
+        "face",
+        "social"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "face_confident",
+      "name": "face",
+      "type": "character",
+      "state": "confident",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 85,
+        "y": 609,
+        "w": 136,
+        "h": 332
+      },
+      "tags": [
+        "face",
+        "social"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "face_exposed",
+      "name": "face",
+      "type": "character",
+      "state": "exposed",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 52,
+        "y": 907,
+        "w": 196,
+        "h": 334
+      },
+      "tags": [
+        "face",
+        "risk"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "runner_idle",
+      "name": "runner",
+      "type": "character",
+      "state": "idle",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 367,
+        "y": 7,
+        "w": 147,
+        "h": 316
+      },
+      "tags": [
+        "runner",
+        "core"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "runner_moving",
+      "name": "runner",
+      "type": "character",
+      "state": "moving",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 319,
+        "y": 310,
+        "w": 223,
+        "h": 281
+      },
+      "tags": [
+        "runner",
+        "movement"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "runner_disguised_waiter",
+      "name": "runner",
+      "type": "character",
+      "state": "disguised_waiter",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 330,
+        "y": 591,
+        "w": 155,
+        "h": 331
+      },
+      "tags": [
+        "runner",
+        "disguise",
+        "waiter"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "runner_interacting",
+      "name": "runner",
+      "type": "character",
+      "state": "interacting",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 325,
+        "y": 910,
+        "w": 216,
+        "h": 309
+      },
+      "tags": [
+        "runner",
+        "tool"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "target_idle",
+      "name": "target",
+      "type": "character",
+      "state": "idle",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 693,
+        "y": 8,
+        "w": 137,
+        "h": 327
+      },
+      "tags": [
+        "target",
+        "core"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "target_checking_phone",
+      "name": "target",
+      "type": "character",
+      "state": "checking_phone",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 674,
+        "y": 311,
+        "w": 155,
+        "h": 328
+      },
+      "tags": [
+        "target",
+        "phone"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "target_holding_drink",
+      "name": "target",
+      "type": "character",
+      "state": "holding_drink",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 668,
+        "y": 608,
+        "w": 151,
+        "h": 321
+      },
+      "tags": [
+        "target",
+        "drink"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "target_moving_to_balcony",
+      "name": "target",
+      "type": "character",
+      "state": "moving_to_balcony",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 625,
+        "y": 906,
+        "w": 241,
+        "h": 305
+      },
+      "tags": [
+        "target",
+        "movement",
+        "balcony"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guard_watching",
+      "name": "guard",
+      "type": "character",
+      "state": "watching",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 992,
+        "y": 0,
+        "w": 153,
+        "h": 334
+      },
+      "tags": [
+        "guard",
+        "sight"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guard_distracted",
+      "name": "guard",
+      "type": "character",
+      "state": "distracted",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 981,
+        "y": 307,
+        "w": 161,
+        "h": 335
+      },
+      "tags": [
+        "guard",
+        "attention"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guard_investigating",
+      "name": "guard",
+      "type": "character",
+      "state": "investigating",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 963,
+        "y": 623,
+        "w": 198,
+        "h": 305
+      },
+      "tags": [
+        "guard",
+        "search"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guard_alarmed",
+      "name": "guard",
+      "type": "character",
+      "state": "alarmed",
+      "sourceImage": "/sprites/sheets/sheet-b-core-characters.png",
+      "sourceSize": {
+        "width": 1254,
+        "height": 1254
+      },
+      "rect": {
+        "x": 966,
+        "y": 904,
+        "w": 196,
+        "h": 340
+      },
+      "tags": [
+        "guard",
+        "alert"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "waiter_idle",
+      "name": "waiter",
+      "type": "character",
+      "state": "idle",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 35,
+        "y": 19,
+        "w": 151,
+        "h": 290
+      },
+      "tags": [
+        "waiter",
+        "staff"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "waiter_moving",
+      "name": "waiter",
+      "type": "character",
+      "state": "moving",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 192,
+        "y": 21,
+        "w": 157,
+        "h": 289
+      },
+      "tags": [
+        "waiter",
+        "staff",
+        "movement"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "waiter_confused",
+      "name": "waiter",
+      "type": "character",
+      "state": "confused",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 353,
+        "y": 20,
+        "w": 130,
+        "h": 297
+      },
+      "tags": [
+        "waiter",
+        "staff",
+        "confused"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "cleaner_idle",
+      "name": "cleaner",
+      "type": "character",
+      "state": "idle",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 502,
+        "y": 38,
+        "w": 138,
+        "h": 278
+      },
+      "tags": [
+        "cleaner",
+        "staff"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "cleaner_cleaning",
+      "name": "cleaner",
+      "type": "character",
+      "state": "cleaning",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 653,
+        "y": 39,
+        "w": 203,
+        "h": 273
+      },
+      "tags": [
+        "cleaner",
+        "staff",
+        "cleaning"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "cleaner_pushing_cart",
+      "name": "cleaner",
+      "type": "character",
+      "state": "pushing_cart",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 834,
+        "y": 36,
+        "w": 166,
+        "h": 290
+      },
+      "tags": [
+        "cleaner",
+        "staff",
+        "cart"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guest_cluster_idle",
+      "name": "guest_cluster",
+      "type": "character",
+      "state": "idle",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 980,
+        "y": 48,
+        "w": 163,
+        "h": 273
+      },
+      "tags": [
+        "guest",
+        "crowd"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guest_cluster_watching",
+      "name": "guest_cluster",
+      "type": "character",
+      "state": "watching",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1120,
+        "y": 48,
+        "w": 174,
+        "h": 273
+      },
+      "tags": [
+        "guest",
+        "crowd",
+        "watching"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guest_cluster_startled",
+      "name": "guest_cluster",
+      "type": "character",
+      "state": "startled",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1290,
+        "y": 50,
+        "w": 227,
+        "h": 272
+      },
+      "tags": [
+        "guest",
+        "crowd",
+        "alert"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guest_list_terminal_normal",
+      "name": "guest_list_terminal",
+      "type": "object",
+      "state": "normal",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 31,
+        "y": 313,
+        "w": 188,
+        "h": 255
+      },
+      "tags": [
+        "terminal",
+        "info"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guest_list_terminal_modified",
+      "name": "guest_list_terminal",
+      "type": "object",
+      "state": "modified",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 235,
+        "y": 313,
+        "w": 187,
+        "h": 255
+      },
+      "tags": [
+        "terminal",
+        "hacked"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guest_list_terminal_error",
+      "name": "guest_list_terminal",
+      "type": "object",
+      "state": "error",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 438,
+        "y": 313,
+        "w": 188,
+        "h": 255
+      },
+      "tags": [
+        "terminal",
+        "error"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "wine_glass_clean",
+      "name": "wine_glass",
+      "type": "object",
+      "state": "clean",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 672,
+        "y": 340,
+        "w": 109,
+        "h": 217
+      },
+      "tags": [
+        "wine",
+        "glass"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "wine_glass_served",
+      "name": "wine_glass",
+      "type": "object",
+      "state": "served",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 842,
+        "y": 339,
+        "w": 112,
+        "h": 218
+      },
+      "tags": [
+        "wine",
+        "glass",
+        "served"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "wine_glass_spilled",
+      "name": "wine_glass",
+      "type": "object",
+      "state": "spilled",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1005,
+        "y": 427,
+        "w": 223,
+        "h": 144
+      },
+      "tags": [
+        "wine",
+        "spill"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "wine_bottle_normal",
+      "name": "wine_bottle",
+      "type": "object",
+      "state": "normal",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1290,
+        "y": 335,
+        "w": 100,
+        "h": 235
+      },
+      "tags": [
+        "wine",
+        "bottle"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "waiter_uniform_available",
+      "name": "waiter_uniform",
+      "type": "object",
+      "state": "available",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 41,
+        "y": 568,
+        "w": 122,
+        "h": 250
+      },
+      "tags": [
+        "uniform",
+        "disguise"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "waiter_uniform_taken",
+      "name": "waiter_uniform",
+      "type": "object",
+      "state": "taken",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 173,
+        "y": 568,
+        "w": 121,
+        "h": 250
+      },
+      "tags": [
+        "uniform",
+        "disguise",
+        "taken"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "cleaning_cart_idle",
+      "name": "cleaning_cart",
+      "type": "object",
+      "state": "idle",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 315,
+        "y": 566,
+        "w": 195,
+        "h": 235
+      },
+      "tags": [
+        "cart",
+        "cleaning"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "cleaning_cart_blocking",
+      "name": "cleaning_cart",
+      "type": "object",
+      "state": "blocking",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 470,
+        "y": 566,
+        "w": 250,
+        "h": 261
+      },
+      "tags": [
+        "cart",
+        "sightline_blocked"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "power_panel_normal",
+      "name": "power_panel",
+      "type": "object",
+      "state": "normal",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 720,
+        "y": 580,
+        "w": 150,
+        "h": 240
+      },
+      "tags": [
+        "power",
+        "panel"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "power_panel_tampered",
+      "name": "power_panel",
+      "type": "object",
+      "state": "tampered",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 880,
+        "y": 584,
+        "w": 155,
+        "h": 235
+      },
+      "tags": [
+        "power",
+        "tampered"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "hallway_camera_active",
+      "name": "hallway_camera",
+      "type": "object",
+      "state": "active",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1042,
+        "y": 613,
+        "w": 170,
+        "h": 184
+      },
+      "tags": [
+        "camera",
+        "active"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "hallway_camera_looped",
+      "name": "hallway_camera",
+      "type": "object",
+      "state": "looped",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1186,
+        "y": 613,
+        "w": 170,
+        "h": 184
+      },
+      "tags": [
+        "camera",
+        "looped"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "hallway_camera_disabled",
+      "name": "hallway_camera",
+      "type": "object",
+      "state": "disabled",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1343,
+        "y": 613,
+        "w": 170,
+        "h": 184
+      },
+      "tags": [
+        "camera",
+        "disabled"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "balcony_rail_normal",
+      "name": "balcony_rail",
+      "type": "object",
+      "state": "normal",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 33,
+        "y": 808,
+        "w": 331,
+        "h": 200
+      },
+      "tags": [
+        "balcony",
+        "rail"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "balcony_rail_tampered",
+      "name": "balcony_rail",
+      "type": "object",
+      "state": "tampered",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 398,
+        "y": 809,
+        "w": 326,
+        "h": 198
+      },
+      "tags": [
+        "balcony",
+        "rail",
+        "tampered"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "target_phone_idle",
+      "name": "target_phone",
+      "type": "object",
+      "state": "idle",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 769,
+        "y": 813,
+        "w": 188,
+        "h": 193
+      },
+      "tags": [
+        "phone",
+        "target"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "target_phone_message_received",
+      "name": "target_phone",
+      "type": "object",
+      "state": "message_received",
+      "sourceImage": "/sprites/sheets/sheet-c-support-objects.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 988,
+        "y": 809,
+        "w": 190,
+        "h": 197
+      },
+      "tags": [
+        "phone",
+        "message"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "guard_sight_cone",
+      "name": "guard_sight_cone",
+      "type": "overlay",
+      "state": "visible",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 57,
+        "y": 114,
+        "w": 302,
+        "h": 257
+      },
+      "tags": [
+        "guard",
+        "sight",
+        "cone"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "blocked_sight_cone",
+      "name": "blocked_sight_cone",
+      "type": "overlay",
+      "state": "blocked",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 373,
+        "y": 115,
+        "w": 295,
+        "h": 260
+      },
+      "tags": [
+        "guard",
+        "sight",
+        "blocked"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "attention_arrow",
+      "name": "attention_arrow",
+      "type": "overlay",
+      "state": "normal",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 697,
+        "y": 140,
+        "w": 179,
+        "h": 230
+      },
+      "tags": [
+        "attention",
+        "arrow"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "suspicion_icon",
+      "name": "suspicion_icon",
+      "type": "overlay",
+      "state": "question",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 959,
+        "y": 147,
+        "w": 212,
+        "h": 212
+      },
+      "tags": [
+        "suspicion",
+        "question"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "alert_icon",
+      "name": "alert_icon",
+      "type": "overlay",
+      "state": "alert",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1224,
+        "y": 145,
+        "w": 229,
+        "h": 232
+      },
+      "tags": [
+        "alert",
+        "risk"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "hacked_icon",
+      "name": "hacked_icon",
+      "type": "overlay",
+      "state": "success",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 127,
+        "y": 424,
+        "w": 193,
+        "h": 187
+      },
+      "tags": [
+        "hacked",
+        "info"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "fake_message_icon",
+      "name": "fake_message_icon",
+      "type": "overlay",
+      "state": "active",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 395,
+        "y": 443,
+        "w": 231,
+        "h": 193
+      },
+      "tags": [
+        "message",
+        "fake"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "disguise_icon",
+      "name": "disguise_icon",
+      "type": "overlay",
+      "state": "active",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 684,
+        "y": 426,
+        "w": 207,
+        "h": 193
+      },
+      "tags": [
+        "disguise",
+        "social"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "route_arrow",
+      "name": "route_arrow",
+      "type": "overlay",
+      "state": "bias",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 970,
+        "y": 420,
+        "w": 205,
+        "h": 210
+      },
+      "tags": [
+        "route",
+        "bias",
+        "movement"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "opportunity_window",
+      "name": "opportunity_window",
+      "type": "overlay",
+      "state": "open",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1230,
+        "y": 427,
+        "w": 220,
+        "h": 211
+      },
+      "tags": [
+        "opportunity",
+        "window"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "accident_ready",
+      "name": "accident_ready",
+      "type": "overlay",
+      "state": "ready",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 35,
+        "y": 695,
+        "w": 190,
+        "h": 200
+      },
+      "tags": [
+        "accident",
+        "ready"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "spill_overlay",
+      "name": "spill_overlay",
+      "type": "overlay",
+      "state": "spilled",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 235,
+        "y": 720,
+        "w": 205,
+        "h": 161
+      },
+      "tags": [
+        "spill",
+        "wine"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "noise_pulse",
+      "name": "noise_pulse",
+      "type": "overlay",
+      "state": "pulse",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 445,
+        "y": 718,
+        "w": 205,
+        "h": 158
+      },
+      "tags": [
+        "noise",
+        "pulse"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "private_meeting_belief",
+      "name": "private_meeting_belief",
+      "type": "overlay",
+      "state": "belief",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 640,
+        "y": 697,
+        "w": 225,
+        "h": 204
+      },
+      "tags": [
+        "belief",
+        "meeting"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "admin_service_issue_icon",
+      "name": "admin_service_issue_icon",
+      "type": "overlay",
+      "state": "issue",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 875,
+        "y": 708,
+        "w": 186,
+        "h": 188
+      },
+      "tags": [
+        "admin",
+        "service",
+        "issue"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "camera_loop",
+      "name": "camera_loop",
+      "type": "overlay",
+      "state": "looped",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1090,
+        "y": 690,
+        "w": 195,
+        "h": 217
+      },
+      "tags": [
+        "camera",
+        "loop"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "id": "evidence_risk",
+      "name": "evidence_risk",
+      "type": "overlay",
+      "state": "risk",
+      "sourceImage": "/sprites/sheets/sheet-d-overlays-icons.png",
+      "sourceSize": {
+        "width": 1536,
+        "height": 1024
+      },
+      "rect": {
+        "x": 1300,
+        "y": 704,
+        "w": 200,
+        "h": 207
+      },
+      "tags": [
+        "evidence",
+        "risk"
+      ],
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  ]
+}
