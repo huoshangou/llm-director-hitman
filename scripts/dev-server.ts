@@ -22,7 +22,7 @@ function openBrowser(url: string) {
     if (process.platform === "darwin") {
       execSync(`open "${url}"`, { stdio: "ignore" });
     } else if (process.platform === "win32") {
-      execSync(`start "" "${url}"`, { stdio: "ignore", shell: true });
+      execSync(`start "" "${url}"`, { stdio: "ignore", shell: process.env.ComSpec ?? "cmd.exe" });
     } else {
       execSync(`xdg-open "${url}"`, { stdio: "ignore" });
     }

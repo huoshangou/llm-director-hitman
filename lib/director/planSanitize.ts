@@ -20,6 +20,37 @@ const FACE_UNSUPPORTED_RE =
   /face|画廊|gallery|infiltrat|混进|混到|混入|等.*(保安|guard)|guard.*(离开|leave)|wait.*guard/i;
 const RUNNER_UNSUPPORTED_RE = /assassin|violence|制服.*保安.*换装/i;
 const FINAL_TOOL_IDS = new Set(["stage_accident", "resolve_poison_on_balcony"]);
+const EXPLICIT_TOOL_PATTERNS: Partial<Record<ToolId, RegExp>> = {
+  spoof_message: /伪造|短信|spoof|假消息|邀约短信|骇入.*(手机|目标)|目标手机|手机.*(约|短信|消息)/i,
+  modify_guest_list: /名单|guest.?list|终端|前台/i,
+  suppress_camera_record: /摄像头|监控|camera|录像/i,
+  fake_schedule_conflict: /日程|冲突|schedule/i,
+  infiltrate_gallery:
+    /混进.*画廊|混到.*画廊|混入画廊|进画廊|画廊.*混|趁乱.*画廊|到画廊去|去画廊/i,
+  create_complaint: /投诉|complaint|名单问题|行政/i,
+  redirect_guard_attention:
+    /引开|支开|调开|转移.*(guard|保安|注意力)|让.*(guard|保安).*(离开|走开|调走)|注意力/i,
+  lure_with_private_meeting:
+    /私密|邀约|搭话|寒暄|lure|阳台见|引到阳台|引.*阳台|接触.*目标|face.*接触|去接触/i,
+  impersonate_staff: /伪装|制服|服务员|服务生|侍者|工作服|服务制服|waiter|impersonate/i,
+  move_cleaning_cart: /清洁车|推车|挡视线|cart/i,
+  spill_drink: /洒|泼|spill|酒杯/i,
+  disable_power_panel: /配电|供电|断电|停电|破坏.*电|电力|power/i,
+  tamper_balcony_rail: /栏杆|rail|破坏阳台/i,
+  stage_accident: /事故|accident|推落|stage/i,
+  prepare_poisoned_drink: /下毒|备毒|毒酒|把酒.*毒|吧台.*毒|酒瓶.*毒/i,
+  serve_poisoned_drink_on_balcony:
+    /递.*(毒|酒|杯)|阳台.*递|端.*酒|喝一杯|递酒|送.*(目标|Victor)|送去阳台/i,
+  resolve_poison_on_balcony: /倒下|毒发|结算|喝完/i,
+};
+
+function requestKey(req: ToolUseRequest): string {
+  return `${req.actor}:${req.toolId}`;
+}
+
+function playerExplicitlyRequestsTool(toolId: ToolId, playerPlan: string): boolean {
+  return EXPLICIT_TOOL_PATTERNS[toolId]?.test(playerPlan) ?? false;
+}
 
 /** Drop toolChain steps LLM marked unsupported per actor — keep other actors (ADR-0017 partial execute). */
 export function sanitizeUnsupportedFromPlan(plan: DirectorPlan): DirectorPlan {
@@ -94,6 +125,63 @@ export function augmentParallelActorsFromStub(
     toolChain: merged,
     playerFacingSummary:
       plan.playerFacingSummary || "已按规则 stub 补全 LLM 漏掉的队友并行步骤。",
+  };
+}
+
+/**
+ * LLM may keep only one Runner step from a compound sentence. Merge explicit stub
+ * intents back into the chain; execution decides how many waves can resolve.
+ */
+export function augmentExplicitToolIntentsFromStub(
+  plan: DirectorPlan,
+  playerPlan: string,
+  world: WorldState,
+  selection: MapSelection | null,
+): DirectorPlan {
+  const stub = compilePlanFromText(playerPlan, world, selection);
+  if (!stub.ok || stub.chain.length < 2) return plan;
+
+  const explicit = stub.chain.filter((req) =>
+    playerExplicitlyRequestsTool(req.toolId as ToolId, playerPlan),
+  );
+  if (!explicit.length) return plan;
+
+  const merged: ToolUseRequest[] = [...(plan.toolChain as ToolUseRequest[])];
+  const existing = new Set(merged.map(requestKey));
+  let changed = false;
+
+  for (const req of explicit) {
+    const key = requestKey(req);
+    if (existing.has(key)) continue;
+    merged.push(req);
+    existing.add(key);
+    changed = true;
+  }
+
+  if (!changed) return plan;
+
+  const byKey = new Map(merged.map((req) => [requestKey(req), req]));
+  const ordered: ToolUseRequest[] = [];
+  const used = new Set<string>();
+
+  for (const req of stub.chain) {
+    const key = requestKey(req);
+    const mergedReq = byKey.get(key);
+    if (!mergedReq || used.has(key)) continue;
+    ordered.push(mergedReq);
+    used.add(key);
+  }
+  for (const req of merged) {
+    const key = requestKey(req);
+    if (used.has(key)) continue;
+    ordered.push(req);
+  }
+
+  return {
+    ...plan,
+    toolChain: ordered,
+    playerFacingSummary:
+      plan.playerFacingSummary || "已按玩家明确子意图补全漏掉的工具步骤。",
   };
 }
 
@@ -228,6 +316,7 @@ export function prepareDirectorPlan(
   let next = sanitizeUnsupportedFromPlan(plan);
   next = augmentLethalIntent(next, playerPlan, world);
   next = augmentParallelActorsFromStub(next, playerPlan, world, selection);
+  next = augmentExplicitToolIntentsFromStub(next, playerPlan, world, selection);
   next = augmentPoisonNarrative(next, playerPlan);
   next = augmentBarWineIntent(next, playerPlan);
   next = augmentGalleryInfiltrate(next, playerPlan, world, selection);

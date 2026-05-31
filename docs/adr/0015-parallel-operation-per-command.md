@@ -43,3 +43,4 @@ ADR-0001 规定玩家每轮提交 Plan 后默认 step 模式只执行 `toolChain
 ## 实现记录
 
 - `lib/operation/*` · `executeOperationSet` · `play-parallel-operation-v1`
+- 2026-05-31：Director prompt / `planSanitize` 对齐多 wave frontier；玩家明确说出的同 actor 多 tool 可进入 `toolChain`，由执行层分 wave 结算并在仍未执行时走 `NEXT /`。
