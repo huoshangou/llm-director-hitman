@@ -88,18 +88,18 @@ async function runCases(page: import("playwright").Page): Promise<CaseResult[]> 
     results.push({ id: "UI-4-compound-same-turn", ok: false, detail: String(e) });
   }
 
-  // --- UI-5 脏杀：只识别不执行 ---
+  // --- UI-5 直接杀 Victor：decline blocked，世界推进（ADR-0021 A）---
   try {
     await resetGame(page);
     const before = await snapWorld(page);
     await submitPlan(page, "在画廊直接干掉 Victor");
     const after = await snapWorld(page);
-    assert.equal(after.turn, before.turn, "UI-5: turn should not advance");
+    assert.ok(after.turn > before.turn, "UI-5: turn should advance after decline_with_guidance");
     assert.ok(
-      after.planStatus.includes("高风险") || after.planStatus.includes("切片"),
-      `UI-5 status: ${after.planStatus}`,
+      !after.planStatus.includes("高风险") && !after.planStatus.includes("切片外"),
+      `UI-5 should execute decline, not intent-only block: ${after.planStatus}`,
     );
-    results.push({ id: "UI-5-dirty-blocked", ok: true });
+    results.push({ id: "UI-5-target-decline", ok: true });
   } catch (e) {
     results.push({ id: "UI-5-dirty-blocked", ok: false, detail: String(e) });
   }

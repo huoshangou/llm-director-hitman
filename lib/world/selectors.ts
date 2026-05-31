@@ -1,4 +1,5 @@
 import { isCleaningCartBlockingBalconySightline, isPowerStealthWindow } from "./sightline";
+import { isNpcActive } from "./lethalResolve";
 import type {
   FieldAgentId,
   GameEvent,
@@ -39,6 +40,7 @@ export function isObservedByGuard(world: WorldState, actor: FieldAgentId): boole
   const location = world.locations[actorLocation];
   return location.watchedBy.some((npcId) => {
     const npc = world.npcs[npcId];
+    if (!npc || !isNpcActive(world, npcId)) return false;
     if (npc.role !== "guard") return false;
     return !GUARD_NOT_WATCHING.includes(npc.attentionMode);
   });
@@ -82,6 +84,7 @@ export const RUNNER_CROSS_ZONE_TOOLS = new Set([
   "prepare_poisoned_drink",
   "serve_poisoned_drink_on_balcony",
   "resolve_poison_on_balcony",
+  "eliminate_threat",
 ]);
 
 export function isNpcId(value: string): value is NpcId {
@@ -94,6 +97,7 @@ export function syncPresenceLists(world: WorldState): void {
     loc.agentsPresent = [];
   }
   for (const npc of Object.values(world.npcs)) {
+    if (!isNpcActive(world, npc.id)) continue;
     world.locations[npc.location].npcsPresent.push(npc.id);
   }
   for (const agent of Object.values(world.agents)) {
@@ -137,6 +141,7 @@ export function isSightlineClear(world: WorldState, location: LocationId): boole
 
   for (const watcherId of loc.watchedBy) {
     const watcher = world.npcs[watcherId];
+    if (!watcher || !isNpcActive(world, watcherId)) continue;
     if (watcher.role !== "guard") continue;
     if (GUARD_NOT_WATCHING.includes(watcher.attentionMode)) {
       continue;

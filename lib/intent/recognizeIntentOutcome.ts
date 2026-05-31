@@ -1,3 +1,9 @@
+import {
+  buildDeclineRequest,
+  buildEliminateRequest,
+  guidanceKeyForTargetKill,
+  parseLethalIntent,
+} from "../director/lethalPolicy";
 import { compilePlanFromText } from "../director/planStub";
 import type { ToolId, ToolUseRequest } from "../tools/toolTypes";
 import type { MapSelection } from "../ui/mapSelection";
@@ -93,6 +99,32 @@ export function recognizeIntentOutcome(
 
   const probe = text || "选中项处理";
   if (POISON_RE.test(probe)) return poisonOutcome();
+
+  const lethal = parseLethalIntent(probe);
+  if (lethal?.victim === "target") {
+    const convertedTo = buildDeclineRequest(
+      probe,
+      "target",
+      guidanceKeyForTargetKill(world),
+    );
+    const base = {
+      status: "convertible" as const,
+      summary: "识别为对合同目标的直接暴力；将转译为拒绝并引导阳台链",
+      originalIntent: "direct_target_lethal",
+      convertedTo,
+    };
+    return { ...base, cues: cuesForIntentOutcome(base) };
+  }
+  if (lethal?.victim === "guard" || lethal?.victim === "guest") {
+    const convertedTo = buildEliminateRequest(probe, lethal.victim);
+    const base = {
+      status: "convertible" as const,
+      summary: `识别为清除${lethal.victim === "guard" ? "保安" : "宾客"}威胁`,
+      originalIntent: `eliminate_${lethal.victim}`,
+      convertedTo,
+    };
+    return { ...base, cues: cuesForIntentOutcome(base) };
+  }
 
   if (DIRTY_RE.test(probe) && !/事故|accident|stage/i.test(probe)) {
     return dirtyOutcome();

@@ -96,11 +96,15 @@ export type LocationState = {
   tags: LocationTag[];
 };
 
+export type NpcVitality = "alive" | "removed";
+
 export type NpcState = {
   id: NpcId;
   name: string;
   role: string;
   location: LocationId;
+  /** ADR-0021: removed NPCs leave presence / observation */
+  vitality?: NpcVitality;
   attentionTarget?: string;
   attentionMode: AttentionMode;
   suspicionTowardPlayer: number;
@@ -149,7 +153,7 @@ export type ObjectState = {
 
 export type ObjectiveState = {
   targetHandled: boolean;
-  style?: "accident" | "poison" | "direct" | "failed";
+  style?: "accident" | "poison" | "direct" | "failed" | "collateral";
   cleanExit: boolean;
   evidenceRisk: number;
 };

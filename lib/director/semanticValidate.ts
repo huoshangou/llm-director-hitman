@@ -1,5 +1,9 @@
 import type { DirectorPlan } from "./directorSchema";
 import type { DirectorBreak } from "./directorBreak";
+import {
+  MISLEADING_VIOLENCE_SUBSTITUTES,
+  parseLethalIntent,
+} from "./lethalPolicy";
 import type { ToolId, ToolUseRequest } from "../tools/toolTypes";
 import type { WorldState } from "../world/worldTypes";
 
@@ -10,18 +14,6 @@ const GALLERY_INFILTRATE_RE =
 const GUARD_LEAVE_THEN_GALLERY_RE =
   /等.*(保安|guard).*(离开|走开|不在|撤离)|guard.*(离开|leave|left)|离开.*(走廊|通道).*(后|再).*(混|进).*画廊|(混|进).*画廊.*等.*(保安|guard)/i;
 
-const VIOLENCE_RE =
-  /杀(?:了|掉|死)?\s*保安|杀(?:了|掉|死)?\s*guard|干掉\s*保安|刺(?:杀)?\s*保安|枪杀|shoot\s*guard|kill\s*guard|杀了对方/i;
-
-const MISLEADING_WHEN_VIOLENCE = new Set<ToolId>([
-  "disable_power_panel",
-  "impersonate_staff",
-  "redirect_guard_attention",
-  "create_complaint",
-  "tamper_balcony_rail",
-  "stage_accident",
-]);
-
 const GALLERY_SUBSTITUTE_ONLY = new Set<ToolId>([
   "redirect_guard_attention",
   "create_complaint",
@@ -29,10 +21,6 @@ const GALLERY_SUBSTITUTE_ONLY = new Set<ToolId>([
 
 export function playerWantsGalleryInfiltration(planText: string): boolean {
   return GALLERY_INFILTRATE_RE.test(planText) || GUARD_LEAVE_THEN_GALLERY_RE.test(planText);
-}
-
-export function playerWantsViolence(planText: string): boolean {
-  return VIOLENCE_RE.test(planText);
 }
 
 function faceTools(chain: ToolUseRequest[]): ToolUseRequest[] {
@@ -50,28 +38,65 @@ export function semanticValidatePlan(
   if (plan.feasibility === "impossible" && chain.length === 0) {
     return {
       code: "UNSUPPORTED_INTENT",
-      playerMessage: "计划不可行，本 turn 不执行。",
+      playerMessage: "计划不可行，本 turn 未执行。",
       detail: "feasibility impossible with empty toolChain",
     };
   }
 
-  if (playerWantsViolence(text)) {
-    if (chain.length > 0) {
-      const bad = chain.find((r) => MISLEADING_WHEN_VIOLENCE.has(r.toolId as ToolId));
+  const lethal = parseLethalIntent(text);
+
+  if (lethal?.victim === "target") {
+    if (chain.some((r) => r.toolId === "eliminate_threat")) {
+      return {
+        code: "SEMANTIC_MISMATCH",
+        playerMessage: "目标只能走阳台事故/毒酒链，不能用清除威胁手段。",
+        detail: "eliminate_threat on contract target",
+        rejectedToolId: "eliminate_threat",
+      };
+    }
+    const bad = chain.find((r) => MISLEADING_VIOLENCE_SUBSTITUTES.has(r.toolId as ToolId));
+    if (bad && !chain.some((r) => r.toolId === "decline_with_guidance")) {
+      return {
+        code: "SEMANTIC_MISMATCH",
+        playerMessage: "不能直接对 Victor 动手；用 decline 引导或先铺阳台前置。",
+        detail: `target lethal intent but toolChain contains ${bad.toolId}`,
+        rejectedToolId: bad.toolId,
+      };
+    }
+    if (chain.some((r) => r.toolId === "decline_with_guidance")) {
+      return null;
+    }
+  }
+
+  if (lethal?.victim === "guard" || lethal?.victim === "guest") {
+    const bad = chain.find(
+      (r) =>
+        MISLEADING_VIOLENCE_SUBSTITUTES.has(r.toolId as ToolId) &&
+        r.toolId !== "eliminate_threat",
+    );
+    if (bad && !chain.some((r) => r.toolId === "eliminate_threat")) {
+      return {
+        code: "SEMANTIC_MISMATCH",
+        playerMessage: "要清除威胁就说清对象；配电/换装不能代替下手。",
+        detail: `lethal on ${lethal.victim} but substituted with ${bad.toolId}`,
+        rejectedToolId: bad.toolId,
+      };
+    }
+    if (chain.some((r) => r.toolId === "eliminate_threat")) {
+      return null;
+    }
+  }
+
+  if (lethal && !lethal.victim && chain.length > 0) {
+    const bad = chain.find((r) => MISLEADING_VIOLENCE_SUBSTITUTES.has(r.toolId as ToolId));
+    if (bad) {
       return {
         code: "UNSUPPORTED_INTENT",
         playerMessage: "没有可执行的致命手段；硬来只会暴露，本 turn 未动手。",
-        detail: bad
-          ? `violence intent but toolChain contains ${bad.toolId}`
-          : "violence intent with toolChain",
-        rejectedToolId: bad?.toolId,
+        detail: `ambiguous lethal intent with ${bad.toolId}`,
+        rejectedToolId: bad.toolId,
       };
     }
-    return {
-      code: "UNSUPPORTED_INTENT",
-      playerMessage: "没有可执行的致命手段；硬来只会暴露。",
-      detail: "violence intent, empty toolChain allowed",
-    };
   }
 
   if (playerWantsGalleryInfiltration(text)) {
@@ -88,7 +113,6 @@ export function semanticValidatePlan(
         rejectedToolId: face[0]?.toolId,
       };
     }
-    // Face 步骤被 LLM 标 unsupported 时已由 planSanitize 剔除；Runner 配电仍可执行（选项 A）
   }
 
   return null;

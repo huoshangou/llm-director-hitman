@@ -175,4 +175,20 @@ export const toolRegistry: Record<string, ToolDefinition> = {
       { type: "alert_below", value: "searching" },
     ],
   },
+  decline_with_guidance: {
+    id: "decline_with_guidance",
+    name: "Decline With Guidance",
+    category: "social",
+    allowedActors: ["face", "runner"],
+    description: "Refuse the requested action; steer player toward contract-valid paths.",
+    preconditions: [{ type: "alert_below", value: "alarm" }],
+  },
+  eliminate_threat: {
+    id: "eliminate_threat",
+    name: "Eliminate Threat",
+    category: "lethal",
+    allowedActors: ["face", "runner"],
+    description: "Neutralize guard or guest when co-located and stealth window holds.",
+    preconditions: [],
+  },
 };

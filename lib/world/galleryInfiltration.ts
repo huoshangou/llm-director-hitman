@@ -1,3 +1,4 @@
+import { isNpcActive } from "./lethalResolve";
 import { isObservedByGuard } from "./selectors";
 import { isPowerStealthWindow } from "./sightline";
 import type { WorldState } from "./worldTypes";
@@ -16,6 +17,10 @@ export function canFaceInfiltrateGallery(world: WorldState): { ok: boolean; reas
   }
 
   const guard = world.npcs.guard;
+
+  if (!isNpcActive(world, "guard")) {
+    return { ok: true, reason: "" };
+  }
 
   if (GUARD_DISTRACTED.has(guard.attentionMode)) {
     return { ok: true, reason: "" };

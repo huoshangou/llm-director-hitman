@@ -1,3 +1,4 @@
+import type { GuidanceKey } from "../director/lethalPolicy";
 import type {
   ActorId,
   AlertLevel,
@@ -26,9 +27,11 @@ export type ToolId =
   | "stage_accident"
   | "prepare_poisoned_drink"
   | "serve_poisoned_drink_on_balcony"
-  | "resolve_poison_on_balcony";
+  | "resolve_poison_on_balcony"
+  | "decline_with_guidance"
+  | "eliminate_threat";
 
-export type ToolCategory = "social" | "information" | "physical" | "final";
+export type ToolCategory = "social" | "information" | "physical" | "final" | "lethal";
 
 export type ToolPrecondition =
   | { type: "alert_below"; value: AlertLevel }
@@ -71,6 +74,7 @@ export type ToolUseRequest = {
   params?: {
     frame?: SocialFrame;
     message?: string;
+    guidanceKey?: GuidanceKey;
   };
 };
 
@@ -101,4 +105,6 @@ export const ALL_TOOL_IDS: ToolId[] = [
   "prepare_poisoned_drink",
   "serve_poisoned_drink_on_balcony",
   "resolve_poison_on_balcony",
+  "decline_with_guidance",
+  "eliminate_threat",
 ];

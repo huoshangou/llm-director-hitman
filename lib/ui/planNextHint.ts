@@ -132,6 +132,22 @@ export function planNextHint(
     return "NEXT / 干员暴露在保安视野；先引开保安或制造干扰。";
   }
 
+  if (toolId === "eliminate_threat") {
+    if (r.includes("co-located") || r.includes("not co")) {
+      return "NEXT / 清威胁需与目标同区；让 Runner 换区或等保安进后厨/停电窗口。";
+    }
+    if (r.includes("guard still") || r.includes("watching")) {
+      return "NEXT / 先 disable_power_panel 或 redirect_guard_attention，再 eliminate_threat。";
+    }
+    if (r.includes("contract target")) {
+      return "NEXT / Victor 只能走阳台事故/毒酒；勿用 eliminate_threat。";
+    }
+  }
+
+  if (toolId === "decline_with_guidance") {
+    return "NEXT / 按电台引导铺阳台链：伪造短信 → 引阳台 → 栏杆/毒酒收尾。";
+  }
+
   return null;
 }
 

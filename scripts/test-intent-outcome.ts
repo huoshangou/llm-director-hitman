@@ -28,9 +28,12 @@ const cart = recognizeIntentOutcome("推清洁车挡住保安视线", world, nul
 assert.ok(cart);
 assert.ok(cart!.status === "executable" || cart!.status === "convertible");
 
-const dirty = recognizeIntentOutcome("在画廊直接干掉目标", world, null);
-assert.ok(dirty);
-assert.equal(dirty!.status, "dirty");
+const directTarget = recognizeIntentOutcome("在画廊直接干掉目标", world, null);
+assert.ok(directTarget);
+assert.equal(directTarget!.status, "convertible");
+if (directTarget!.status === "convertible") {
+  assert.equal(directTarget.convertedTo.toolId, "decline_with_guidance");
+}
 
 const unknown = recognizeIntentOutcome("随便说点什么无关的", world, null);
 assert.equal(unknown, null);

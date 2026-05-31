@@ -8,6 +8,12 @@ import {
   playerPlanLooksLikeContinuation,
   poisonServeActorForText,
 } from "./worldContinuation";
+import {
+  buildDeclineRequest,
+  buildEliminateRequest,
+  guidanceKeyForTargetKill,
+  parseLethalIntent,
+} from "./lethalPolicy";
 import { canFaceInfiltrateGallery } from "../world/galleryInfiltration";
 import type { ActorId, FieldAgentId, WorldState } from "../world/worldTypes";
 
@@ -503,6 +509,31 @@ export function compilePlanFromText(
         ok: true,
         chain: cont,
         note: "已根据当前世界态续接下一步（规则 stub）。",
+      };
+    }
+  }
+
+  if (text) {
+    const lethal = parseLethalIntent(text);
+    if (lethal?.victim === "guard") {
+      return {
+        ok: true,
+        chain: [buildEliminateRequest(text, "guard")],
+        note: "已匹配清除保安威胁（需 stealth 窗口；resolver 判定成败）。",
+      };
+    }
+    if (lethal?.victim === "guest") {
+      return {
+        ok: true,
+        chain: [buildEliminateRequest(text, "guest")],
+        note: "已匹配清除宾客（成功将触发误伤坏结局）。",
+      };
+    }
+    if (lethal?.victim === "target") {
+      return {
+        ok: true,
+        chain: [buildDeclineRequest(text, "target", guidanceKeyForTargetKill(world))],
+        note: "已匹配对合同目标的拒绝与阳台引导。",
       };
     }
   }

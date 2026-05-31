@@ -8,6 +8,7 @@ export type TerminalStateId =
   | "success_poison_balcony"
   | "failed_alarm"
   | "failed_final_exposed"
+  | "failed_collateral"
   | "stalled_target";
 
 export type TerminalState = {
@@ -84,6 +85,17 @@ export function classifyTerminalState(world: WorldState): TerminalState {
     };
   }
 
+  if (
+    !world.objective.targetHandled &&
+    (world.objective.style === "collateral" || world.objective.style === "failed")
+  ) {
+    return {
+      id: "failed_collateral",
+      label: "失败 · 误伤暴露",
+      description: "非合同目标伤亡引发警报，任务中止。",
+    };
+  }
+
   if (world.alertLevel === "alarm" || world.alertLevel === "lockdown") {
     return {
       id: "failed_alarm",
@@ -92,7 +104,7 @@ export function classifyTerminalState(world: WorldState): TerminalState {
     };
   }
 
-  if (world.objective.style === "failed") {
+  if (world.objective.style === "failed" && world.objective.targetHandled) {
     return {
       id: "failed_final_exposed",
       label: "失败 · 终局暴露",

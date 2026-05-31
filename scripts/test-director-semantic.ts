@@ -51,7 +51,7 @@ async function main() {
     "runner趁机杀了保安",
     world,
   );
-  assert.equal(killMismatch?.code, "UNSUPPORTED_INTENT");
+  assert.equal(killMismatch?.code, "SEMANTIC_MISMATCH");
 
   const stub = await compileDirectorPlan({
     playerPlan: "runner，破坏供电；face，趁乱混到画廊里去",
@@ -69,9 +69,11 @@ async function main() {
     selection: null,
     clientLlm: null,
   });
-  assert.equal(killStub.clarificationOnly, true);
-  assert.equal(killStub.directorBreak?.code, "UNSUPPORTED_INTENT");
-  assert.equal(killStub.validation?.executableChain.length, 0);
+  assert.notEqual(killStub.clarificationOnly, true);
+  assert.ok(
+    killStub.validation?.executableChain.some((r) => r.toolId === "eliminate_threat"),
+    "guard lethal should compile eliminate_threat",
+  );
 
   const blocked = executeToolChain(cloneWorld(), [
     {

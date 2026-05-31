@@ -4,14 +4,21 @@ import {
   playerExplicitlyCommitsFinal,
   poisonServeActorForText,
 } from "./worldContinuation";
+import {
+  buildDeclineRequest,
+  buildEliminateRequest,
+  guidanceKeyForTargetKill,
+  MISLEADING_VIOLENCE_SUBSTITUTES,
+  parseLethalIntent,
+} from "./lethalPolicy";
 import { playerWantsGalleryInfiltration } from "./semanticValidate";
 import type { MapSelection } from "../ui/mapSelection";
-import type { ToolUseRequest } from "../tools/toolTypes";
+import type { ToolId, ToolUseRequest } from "../tools/toolTypes";
 import type { WorldState } from "../world/worldTypes";
 
 const FACE_UNSUPPORTED_RE =
   /face|画廊|gallery|infiltrat|混进|混到|混入|等.*(保安|guard)|guard.*(离开|leave)|wait.*guard/i;
-const RUNNER_UNSUPPORTED_RE = /kill|杀|assassin|violence|致命|制服.*保安.*换装/i;
+const RUNNER_UNSUPPORTED_RE = /assassin|violence|制服.*保安.*换装/i;
 const FINAL_TOOL_IDS = new Set(["stage_accident", "resolve_poison_on_balcony"]);
 
 /** Drop toolChain steps LLM marked unsupported per actor — keep other actors (ADR-0017 partial execute). */
@@ -171,6 +178,47 @@ export function enforceFinalCommitGate(plan: DirectorPlan, playerPlan: string): 
   };
 }
 
+/** ADR-0021: map lethal player text → decline / eliminate; strip misleading substitutes. */
+export function augmentLethalIntent(
+  plan: DirectorPlan,
+  playerPlan: string,
+  world: WorldState,
+): DirectorPlan {
+  const lethal = parseLethalIntent(playerPlan);
+  if (!lethal) return plan;
+
+  const stripMisleading = (chain: ToolUseRequest[]) =>
+    chain.filter((r) => !MISLEADING_VIOLENCE_SUBSTITUTES.has(r.toolId as ToolId));
+
+  if (lethal.victim === "target") {
+    const chain = stripMisleading(plan.toolChain as ToolUseRequest[]);
+    const hasDecline = chain.some((r) => r.toolId === "decline_with_guidance");
+    const decline = buildDeclineRequest(
+      playerPlan,
+      "target",
+      guidanceKeyForTargetKill(world),
+    );
+    return {
+      ...plan,
+      toolChain: hasDecline ? chain : [decline, ...chain],
+      feasibility: chain.length || hasDecline ? "partial" : "impossible",
+    };
+  }
+
+  if (lethal.victim === "guard" || lethal.victim === "guest") {
+    const chain = stripMisleading(plan.toolChain as ToolUseRequest[]);
+    const hasEliminate = chain.some((r) => r.toolId === "eliminate_threat");
+    const eliminate = buildEliminateRequest(playerPlan, lethal.victim);
+    return {
+      ...plan,
+      toolChain: hasEliminate ? chain : [...chain, eliminate],
+      feasibility: plan.feasibility === "impossible" ? "partial" : plan.feasibility,
+    };
+  }
+
+  return plan;
+}
+
 export function prepareDirectorPlan(
   plan: DirectorPlan,
   playerPlan: string,
@@ -178,6 +226,7 @@ export function prepareDirectorPlan(
   selection: MapSelection | null,
 ): DirectorPlan {
   let next = sanitizeUnsupportedFromPlan(plan);
+  next = augmentLethalIntent(next, playerPlan, world);
   next = augmentParallelActorsFromStub(next, playerPlan, world, selection);
   next = augmentPoisonNarrative(next, playerPlan);
   next = augmentBarWineIntent(next, playerPlan);

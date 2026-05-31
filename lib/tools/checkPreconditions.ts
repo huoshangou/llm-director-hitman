@@ -27,6 +27,9 @@ export function checkProximity(
   world: WorldState,
 ): { ok: boolean; reason?: string } {
   if (request.actor === "player") return { ok: true };
+  if (tool.id === "eliminate_threat" || tool.id === "decline_with_guidance") {
+    return { ok: true };
+  }
 
   const targetsNpc = request.targets.some((t) => t in world.npcs);
   if (SOCIAL_CROSS_ZONE_TOOLS.has(tool.id) && targetsNpc) return { ok: true };

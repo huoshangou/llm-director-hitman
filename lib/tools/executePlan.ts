@@ -49,7 +49,11 @@ export function executeToolChain(
   for (const request of chain) {
     const result = resolveTool(request, current);
     results.push(result);
-    if (result.status !== "blocked") {
+    const applyBlocked =
+      result.status === "blocked" &&
+      typeof result.worldDelta?.timeSeconds === "number" &&
+      result.worldDelta.timeSeconds > 0;
+    if (result.status !== "blocked" || applyBlocked) {
       current = applyToolResult(current, result);
     }
     if (current.alertLevel === "alarm") break;

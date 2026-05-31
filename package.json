@@ -31,6 +31,7 @@
     "test:play-camera-ui": "tsx scripts/test-play-camera-ui.ts",
     "test:director": "tsx scripts/test-director-compile.ts",
     "test:director-semantic": "tsx scripts/test-director-semantic.ts",
+    "test:lethal": "tsx scripts/test-lethal-tools.ts",
     "test:plan-sanitize": "tsx scripts/test-plan-sanitize-option-a.ts",
     "test:infiltrate-gallery": "tsx scripts/test-infiltrate-gallery.ts",
     "test:map-anchors": "tsx scripts/test-map-anchors.ts",

@@ -18,6 +18,12 @@ function requestKey(r: ToolUseRequest): string {
   return `${r.actor}:${r.toolId}`;
 }
 
+/** ADR-0021: decline / failed eliminate still advance time when blocked. */
+function shouldApplyBlockedResult(result: ToolUseResult): boolean {
+  const seconds = result.worldDelta?.timeSeconds;
+  return typeof seconds === "number" && seconds > 0;
+}
+
 /** Step turn: multi-wave frontier — 同 turn 内前置满足后解锁下一步（如配电 → 混画廊）。 */
 export function executeOperationSet(
   world: WorldState,
@@ -49,7 +55,7 @@ export function executeOperationSet(
       executed.add(key);
       allActions.push(action);
 
-      if (result.status !== "blocked") {
+      if (result.status !== "blocked" || shouldApplyBlockedResult(result)) {
         current = applyToolResult(current, result);
       }
       if (current.alertLevel === "alarm") break;

@@ -67,6 +67,13 @@ function successText(
     return "我接手社交掩护，尽量让现场保持自然。";
   }
 
+  if (request.toolId === "decline_with_guidance") {
+    return result?.reason?.slice(0, 60) ?? "这步我不接，按合同走阳台链。";
+  }
+  if (request.toolId === "eliminate_threat") {
+    return "威胁已处理，通道应该松了。";
+  }
+
   if (request.actor === "runner") {
     if (request.toolId === "disable_power_panel") {
       return "收到，我动配电，动作会压在监控盲点里。";
@@ -100,6 +107,18 @@ function successText(
 
 function blockedText(request: ToolUseRequest, reason?: string): string {
   const r = shortReason(reason);
+  if (request.toolId === "decline_with_guidance") {
+    return reason?.slice(0, 60) ?? "这步我不接，先铺阳台前置。";
+  }
+  if (request.toolId === "eliminate_threat") {
+    if (r.includes("co-located") || r.includes("not co")) {
+      return "我还没和目标的贴身位对齐，得先换区或等窗口。";
+    }
+    if (r.includes("Guard still")) {
+      return "保安视线还在，先断电或引开再清威胁。";
+    }
+    return `清威胁卡住：${r}。`;
+  }
   if (request.toolId === "infiltrate_gallery") {
     return r.includes("guard") || r.includes("Gallery")
       ? "画廊门口还烫，保安视线没挪开——先配电或行政投诉引开他。"

@@ -1,4 +1,6 @@
+import { GUIDANCE_TEXT, type GuidanceKey } from "../director/lethalPolicy";
 import { makeId } from "../utils/id";
+import { canEliminateThreat } from "../world/lethalResolve";
 import { planFieldAgentTravel, reactiveTaskType } from "../world/characterPresence";
 import { canFaceInfiltrateGallery } from "../world/galleryInfiltration";
 import { planActorTravelEvents } from "../world/travel";
@@ -8,7 +10,7 @@ import {
   resolveTargetLocation,
   syncPresenceLists,
 } from "../world/selectors";
-import type { FieldAgentId, GameEvent, LocationId, WorldState } from "../world/worldTypes";
+import type { FieldAgentId, GameEvent, LocationId, NpcId, WorldState } from "../world/worldTypes";
 import { applyWorldDelta } from "./applyWorldDelta";
 import { checkPreconditions } from "./checkPreconditions";
 import { toolRegistry } from "./toolRegistry";
@@ -108,9 +110,100 @@ export function resolveTool(request: ToolUseRequest, world: WorldState): ToolUse
       return resolveServePoisonedDrinkOnBalcony(request, world, score, status);
     case "resolve_poison_on_balcony":
       return resolveResolvePoisonOnBalcony(request, world, score, status);
+    case "decline_with_guidance":
+      return resolveDeclineWithGuidance(request);
+    case "eliminate_threat":
+      return resolveEliminateThreat(request, world, score);
     default:
       return blocked(request, "Unknown tool");
   }
+}
+
+function resolveDeclineWithGuidance(request: ToolUseRequest): ToolUseResult {
+  const key = (request.params?.guidanceKey ?? "target_needs_balcony_setup") as GuidanceKey;
+  const text = GUIDANCE_TEXT[key] ?? GUIDANCE_TEXT.target_needs_balcony_setup;
+  return baseResult(
+    request,
+    "blocked",
+    0,
+    { timeSeconds: 2 },
+    [
+      event("dialogue_bubble", { actor: request.actor, text, severity: "medium" }),
+      event("tool_failed", { actor: request.actor, text, severity: "low" }),
+    ],
+    text,
+  );
+}
+
+function resolveEliminateThreat(
+  request: ToolUseRequest,
+  world: WorldState,
+  score: number,
+): ToolUseResult {
+  if (request.actor === "player") {
+    return blocked(request, "Player cannot eliminate threats in the field");
+  }
+  const victimId = request.targets.find((t) => t in world.npcs) as NpcId | undefined;
+  if (!victimId) {
+    return blocked(request, "No valid NPC target for eliminate_threat");
+  }
+
+  const check = canEliminateThreat(world, request.actor as FieldAgentId, victimId);
+  if (!check.ok) {
+    return baseResult(
+      request,
+      "blocked",
+      0,
+      { timeSeconds: 2 },
+      [
+        event("dialogue_bubble", { actor: request.actor, text: check.reason, severity: "medium" }),
+        event("tool_failed", { actor: request.actor, text: check.reason, severity: "medium" }),
+      ],
+      check.reason,
+    );
+  }
+
+  const isGuest = victimId === "guest";
+  const worldDelta: WorldDelta = {
+    timeSeconds: 3,
+    suspicion: isGuest ? 45 : 18,
+    alertLevel: isGuest ? "alarm" : world.alertLevel,
+    npcs: {
+      [victimId]: {
+        vitality: "removed",
+        attentionMode: "panic",
+      },
+    },
+  };
+
+  if (isGuest) {
+    worldDelta.objective = {
+      style: "collateral",
+      cleanExit: false,
+      evidenceRisk: Math.max(world.objective.evidenceRisk, 70),
+    };
+    worldDelta.alertLevel = "alarm";
+  }
+
+  const text =
+    victimId === "guard"
+      ? "威胁已清除，保安不会再挡通道。"
+      : "宾客倒下，全场哗然——合同目标还没动，任务已经暴露。";
+
+  return baseResult(
+    request,
+    "success",
+    Math.max(score, 55),
+    worldDelta,
+    [
+      event("tool_success", { actor: request.actor, text, severity: isGuest ? "high" : "medium" }),
+      event("alert_change", { value: worldDelta.alertLevel, severity: "high" }),
+      ...(isGuest
+        ? [event("objective_update", { text: "collateral_kill", severity: "high" })]
+        : []),
+    ],
+    text,
+  );
 }
 
 function resolveCreateComplaint(

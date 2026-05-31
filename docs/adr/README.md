@@ -44,3 +44,4 @@
 | [0018](./0018-mission-frame-v1.md) | Mission Frame v1 | accepted |
 | [0019](./0019-poison-balcony-executable-frontier.md) | Poison balcony chain + executable frontier | accepted |
 | [0020](./0020-play-spatial-boundary-and-hacker-actions.md) | Play spatial boundary + Hacker action surface | accepted |
+| [0021](./0021-lethal-decline-and-eliminate-threat.md) | decline_with_guidance + eliminate_threat + NPC vitality | accepted |
