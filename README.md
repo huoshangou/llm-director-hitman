@@ -22,7 +22,7 @@ https://github.com/huoshangou/llm-director-hitman
 要求：
 1. git clone 后进入仓库根目录
 2. 若未安装依赖则 npm install
-3. 启动本地服务（npm run play，或 macOS 双击「启动 Hitman 演示.command」）
+3. 启动本地服务（npm run play；macOS 双击「启动 Hitman 演示.command」；Windows 双击「启动 Hitman 演示.bat」）
 4. 在浏览器打开 http://127.0.0.1:8747/play/index.html
 5. 告诉我如何在游戏内「AI 接入」面板配置 OpenRouter Key，模型用 deepseek/deepseek-v4-pro
 6. 不要让我手改 .env；API Key 应在游戏 UI 里配置
@@ -30,17 +30,24 @@ https://github.com/huoshangou/llm-director-hitman
 
 Agent 会代为完成下载、安装与启动；你只需在打开的页面里填 Key。
 
-### 方式二：macOS 一键启动（本仓库自带）
+### 方式二：一键启动（本仓库自带）
 
-1. [Download ZIP](https://github.com/huoshangou/llm-director-hitman/archive/refs/heads/main.zip) 或 `git clone` 到本机任意目录（**不要**放在 iCloud 同步目录里，避免权限问题）。
+1. [Download ZIP](https://github.com/huoshangou/llm-director-hitman/archive/refs/heads/main.zip) 或 `git clone` 到本机任意目录。  
+   macOS 用户请勿放在 iCloud「文稿」同步目录里，避免权限问题。
 2. 安装 [Node.js 18+](https://nodejs.org/)（仅需一次）。
-3. 在仓库根目录 **双击** `启动 Hitman 演示.command`  
-   - 首次会自动 `npm install`（稍等片刻）  
-   - 随后启动本地服务；**不要关闭弹出的终端窗口**  
-   - 浏览器一般会打开；若没有，请手动访问下方地址  
-4. 若 macOS 提示「无法打开」：右键该文件 → **打开** → 确认一次。
+3. 在仓库根目录 **双击** 对应启动器：
 
-> Windows：可用方式一交给 Codex；或在仓库根目录打开终端执行 `npm install` 与 `npm run play`（见文末「开发者」）。
+   | 系统 | 文件 |
+   |------|------|
+   | **macOS** | `启动 Hitman 演示.command` |
+   | **Windows** | `启动 Hitman 演示.bat` |
+
+   - 首次会自动 `npm install`（稍等片刻）  
+   - 随后启动本地服务；**不要关闭弹出的命令行窗口**  
+   - 浏览器一般会打开；若没有，请手动访问下方地址  
+
+4. **macOS** 若提示「无法打开」：右键 `.command` → **打开** → 确认一次。  
+   **Windows** 若 SmartScreen 拦截：点「更多信息」→ **仍要运行**（脚本仅在本仓库内启动本地服务）。
 
 ---
 
@@ -108,15 +115,16 @@ app/                    Next.js API
 lib/director/           LLM 编译与校验
 lib/tools/              确定性规则
 sandbox-shell/          /play 页面源码
-启动 Hitman 演示.command   macOS 一键启动（仓库根目录）
+启动 Hitman 演示.command   macOS 一键启动
+启动 Hitman 演示.bat       Windows 一键启动
 ```
 
 ---
 
 ## 常见问题
 
-**双击 `.command` 没反应**  
-确认已装 Node.js；右键 → 打开。查看终端窗口里的报错。
+**双击启动器没反应**  
+确认已装 Node.js。macOS：右键 `.command` → 打开。Windows：用 `.bat` 启动。查看命令行窗口里的报错。
 
 **`/play/` 空白**  
 须通过 `npm run play` 或双击启动器启动，不要单独开静态 HTML。
