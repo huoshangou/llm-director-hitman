@@ -2,7 +2,7 @@
 
 **LLM Director over Deterministic Sandbox** — 玩家用自然语言描述暗杀计划；LLM 编译为工具链；确定性规则改变世界；2.5D 画面播放因果链。
 
-作者：洪祥健 · 笔试作品  
+作者：stevehong
 仓库：https://github.com/huoshangou/llm-director-hitman
 
 ---
