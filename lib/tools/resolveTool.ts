@@ -5,6 +5,7 @@ import { planFieldAgentTravel, reactiveTaskType } from "../world/characterPresen
 import { canFaceInfiltrateGallery } from "../world/galleryInfiltration";
 import { planActorTravelEvents } from "../world/travel";
 import { assessFaceCredibility } from "../world/faceCredibility";
+import { TAG, addUniqueTags } from "../world/semanticTags";
 import {
   objectAtLocation,
   resolveTargetLocation,
@@ -354,6 +355,7 @@ function resolveSpoofMessage(
             },
           ],
           routeBias: { ...target.routeBias, balcony: (target.routeBias.balcony ?? 0) + 35 },
+          stateTags: addUniqueTags(target.stateTags, [TAG.targetPrivateMeetingBelief]),
         },
       },
     },
@@ -520,6 +522,10 @@ function resolveImpersonateStaff(
           exposure: world.agents[fieldAgent].exposure + 8,
           permissions: ["serve_drinks", "enter_bar", "enter_kitchen"],
           status: "acting",
+          stateTags: addUniqueTags(world.agents[fieldAgent].stateTags, [
+            TAG.disguisedAsWaiter,
+            TAG.coverValidService,
+          ]),
         },
       },
       objects: { waiter_uniform: { state: { available: false }, visible: false } },
@@ -627,6 +633,7 @@ function resolveLureWithPrivateMeeting(
             },
           ],
           routeBias: { ...target.routeBias, balcony: (target.routeBias.balcony ?? 0) + routeBoost },
+          stateTags: addUniqueTags(target.stateTags, [TAG.targetRouteBalconyCommitted]),
           ...((target.routeBias.balcony ?? 0) + routeBoost >= 12 && target.location !== "balcony"
             ? {
                 currentTask: {
@@ -856,7 +863,12 @@ function resolveSuppressCameraRecord(
     {
       timeSeconds: 6,
       player: { traceRisk: world.player.traceRisk + 20 },
-      objects: { hallway_camera: { state: { recordingSuppressed: true, active: false } } },
+      objects: {
+        hallway_camera: {
+          state: { recordingSuppressed: true, active: false },
+          tags: addUniqueTags(world.objects.hallway_camera.tags, [TAG.cameraRecordingSuppressed]),
+        },
+      },
     },
     events,
   );
@@ -1003,6 +1015,10 @@ function resolvePreparePoisonedDrink(
             poisoned: true,
             poison_served: world.objects.wine_bottle.state.poison_served === true,
           },
+          tags: addUniqueTags(world.objects.wine_bottle.tags, [
+            TAG.wineBottlePoisoned,
+            TAG.tamperedObject,
+          ]),
         },
       },
     },
@@ -1036,6 +1052,27 @@ function resolveServePoisonedDrinkOnBalcony(
     );
   }
 
+  const actor = world.agents[fieldAgent];
+  const hasServiceCover =
+    actor.coverIdentity === "waiter" ||
+    actor.permissions.includes("serve_drinks") ||
+    actor.stateTags?.includes(TAG.coverValidService);
+  const guard = world.npcs.guard;
+  const suspicionPatch =
+    fieldAgent === "runner" && !hasServiceCover
+      ? {
+          guard: {
+            suspicionTowardAgents: {
+              ...guard.suspicionTowardAgents,
+              runner: (guard.suspicionTowardAgents.runner ?? 0) + 18,
+            },
+            stateTags: addUniqueTags(guard.stateTags, [TAG.guardSuspiciousOfRunner]),
+            attentionMode: "suspicious_focus" as const,
+            attentionTarget: "runner",
+          },
+        }
+      : {};
+
   return baseResult(
     request,
     status,
@@ -1057,9 +1094,11 @@ function resolveServePoisonedDrinkOnBalcony(
             poisoned: true,
             poison_served: true,
           },
+          tags: addUniqueTags(world.objects.wine_bottle.tags, [TAG.poisonServedToTarget]),
         },
       },
       npcs: {
+        ...suspicionPatch,
         target: {
           beliefs: [
             ...world.npcs.target.beliefs,
@@ -1071,6 +1110,7 @@ function resolveServePoisonedDrinkOnBalcony(
               source: fieldAgent,
             },
           ],
+          stateTags: addUniqueTags(world.npcs.target.stateTags, [TAG.targetAcceptedPoisonedDrink]),
         },
       },
     },
@@ -1114,7 +1154,14 @@ function resolveResolvePoisonOnBalcony(
     );
   }
 
-  const cleanExit = world.objective.evidenceRisk < 55 && world.player.traceRisk < 45;
+  const camera = world.objects.hallway_camera;
+  const cameraSuppressed =
+    camera.state.recordingSuppressed === true || camera.tags.includes(TAG.cameraRecordingSuppressed);
+  const cameraTags = cameraSuppressed
+    ? camera.tags
+    : addUniqueTags(camera.tags, [TAG.cameraHasRelevantFootage]);
+  const evidenceRisk = Math.max(world.objective.evidenceRisk, cameraSuppressed ? 8 : 24);
+  const cleanExit = evidenceRisk < 55 && world.player.traceRisk < 45;
 
   return baseResult(
     request,
@@ -1122,11 +1169,21 @@ function resolveResolvePoisonOnBalcony(
     score,
     {
       timeSeconds: 4,
-      alertLevel: world.objective.evidenceRisk > 50 ? "suspicious" : "curious",
+      alertLevel: evidenceRisk > 50 ? "suspicious" : "curious",
       agents: agentPatch,
-      objective: { targetHandled: true, style: "poison", cleanExit },
+      objective: { targetHandled: true, style: "poison", cleanExit, evidenceRisk },
+      objects: {
+        hallway_camera: { tags: cameraTags },
+      },
       npcs: {
-        target: { stateTags: [...world.npcs.target.stateTags, "handled", "poisoned"] },
+        target: {
+          stateTags: addUniqueTags(world.npcs.target.stateTags, [
+            "handled",
+            "poisoned",
+            TAG.targetHandled,
+            TAG.targetPoisoned,
+          ]),
+        },
       },
     },
     [

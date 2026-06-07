@@ -30,8 +30,8 @@ source: archive/v0.1 §12, v0.2 §16–§19
 | unsupportedParts | 不可执行片段 + reason |
 | fallbackSuggestions | 降级 toolChain |
 | riskSummary | 风险列表 |
-| playerFacingSummary | 玩家可读摘要 |
-| agentComms | 角色通讯文本 |
+| playerFacingSummary | 非权威调试/摘要文本；不得新增成功、死亡、警察、新 NPC、新物件等未结算事实 |
+| agentComms | 非权威角色通讯建议；玩家可见 radio 以 deterministic template / ToolUseResult 为准 |
 
 ## 禁止输出
 

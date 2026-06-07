@@ -35,5 +35,10 @@ export function executedStepSummary(request: ToolUseRequest): string {
 }
 
 export function executedStepSummaryFromResult(result: ToolUseResult): string {
-  return executedStepSummary(result.request);
+  const actor = ACTOR_LABEL[result.request.actor] ?? result.request.actor;
+  const action = toolActionZh(result.request.toolId);
+  if (result.status === "blocked") return `EXEC / ${actor} 受阻：${action}`;
+  if (result.status === "failed") return `EXEC / ${actor} 失败：${action}`;
+  if (result.status === "partial") return `EXEC / ${actor} 部分完成：${action}`;
+  return `EXEC / ${actor} 执行：${action}`;
 }

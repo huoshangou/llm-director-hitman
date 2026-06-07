@@ -33,6 +33,18 @@ location | remote, coverIdentity, stress, exposure, skills, availableTools, perm
 
 location | target_inventory | hidden, state{}, affordances[], tags[]
 
+## Semantic Tags
+
+Tags are not free-form prose memory. They are compact state facts that future rules, NPC reactions, evidence checks, and UI explanation may read.
+
+Initial scope:
+
+- `AgentState.stateTags`: cover and exposure facts such as `disguised_as_waiter`.
+- `NpcState.stateTags`: belief/awareness/result facts such as `target_has_private_meeting_belief`.
+- `ObjectState.tags`: tampering/evidence facts such as `wine_bottle_poisoned`.
+
+LLM may suggest intent and checks, but only deterministic tool resolution writes tags.
+
 ## KnowledgeState / EvidenceState
 
 谁知道什么；visible/hidden evidence（week1 可简化）

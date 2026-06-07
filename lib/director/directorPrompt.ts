@@ -42,7 +42,9 @@ Rules:
 - Match other player phrases to the correct tool per directorConstraints.forbiddenSubstitutions.
 - mapSelection is authoritative ONLY when playerPlan is empty or uses 这个/它/selected; otherwise ignore mapSelection for targets.
 - If any part is impossible or unsupported: unsupportedParts + toolChain MUST be [] (no substitute tools).
-- Kill / assassinate guard: no tool exists — unsupportedParts + empty toolChain.
+- Directly killing the contract target is not a valid field action; use decline_with_guidance with the closest guidanceKey.
+- Guard / guest threat handling can use eliminate_threat only when the player explicitly targets guard or guest and the tool is present in worldSummary.tools.
+- Do not claim success, failure, death, police response, new NPCs, new exits, or new items in playerFacingSummary or agentComms. These fields may only restate parsed intent, blocked reasons, and next-step guidance grounded in current worldSummary or executed tool results.
 - spoof_message needs params.message; social tools may use params.frame: admin_issue | service_problem.
 - Avoid disable_power_panel unless player explicitly wants loud diversion.
 - Do not stage_accident unless setup plausibly exists or is included earlier in chain.

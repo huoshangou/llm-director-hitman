@@ -94,7 +94,7 @@ export function composeFieldAgentRadio(reason: ClarificationReason): FieldAgentR
   return TEMPLATES[reason].map((l) => ({ ...l }));
 }
 
-/** 模板为主；LLM 若已产出 agentComms 则优先（方案 C） */
+/** 模板为主；LLM agentComms 不直接进入玩家可见电台，避免新增未结算事实。 */
 export async function buildFieldAgentRadio(input: {
   playerPlan: string;
   world: WorldState;
@@ -109,19 +109,5 @@ export async function buildFieldAgentRadio(input: {
     stubMessage: input.stubMessage,
   });
   const base = composeFieldAgentRadio(reason);
-
-  const fromPlan = (input.plan?.agentComms ?? [])
-    .filter((c) => c.agent === "face" || c.agent === "runner")
-    .map((c) => ({
-      agent: c.agent as FieldAgentId,
-      text: c.text,
-      tone: (c.tone === "blocked" || c.tone === "suggestion" || c.tone === "cautious"
-        ? c.tone
-        : "cautious") as FieldAgentRadioLine["tone"],
-    }));
-
-  if (fromPlan.length > 0) {
-    return fromPlan;
-  }
   return base;
 }

@@ -193,11 +193,13 @@ async function submitHackerQuickAction(actionId) {
     const followIds = playbackFollowIds(execSteps);
 
     if (typeof pushCommandFeed === "function") {
-      for (const step of execSteps) {
+      for (const result of turn.results) {
         const execLine =
-          typeof HitmanCore.executedStepSummary === "function"
-            ? HitmanCore.executedStepSummary(step)
-            : `EXEC / ${step.actor} → ${step.toolId}`;
+          typeof HitmanCore.executedStepSummaryFromResult === "function"
+            ? HitmanCore.executedStepSummaryFromResult(result)
+            : typeof HitmanCore.executedStepSummary === "function"
+              ? HitmanCore.executedStepSummary(result.request)
+              : `EXEC / ${result.request.actor} → ${result.request.toolId}`;
         const execBody = execLine.replace(/^EXEC\s*\/\s*/i, "").trim();
         pushCommandFeed({ speaker: "EXEC", text: execBody, tone: "system" });
       }
@@ -657,11 +659,13 @@ async function submitPlayerPlan() {
     }
 
     if (typeof pushCommandFeed === "function") {
-      for (const step of execSteps) {
+      for (const result of turn.results) {
         const execLine =
-          typeof HitmanCore.executedStepSummary === "function"
-            ? HitmanCore.executedStepSummary(step)
-            : `EXEC / ${step.actor} → ${step.toolId}`;
+          typeof HitmanCore.executedStepSummaryFromResult === "function"
+            ? HitmanCore.executedStepSummaryFromResult(result)
+            : typeof HitmanCore.executedStepSummary === "function"
+              ? HitmanCore.executedStepSummary(result.request)
+              : `EXEC / ${result.request.actor} → ${result.request.toolId}`;
         const execBody = execLine.replace(/^EXEC\s*\/\s*/i, "").trim();
         pushCommandFeed({ speaker: "EXEC", text: execBody, tone: "system" });
       }

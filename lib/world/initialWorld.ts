@@ -193,6 +193,7 @@ export const initialWorld: WorldState = {
       ],
       permissions: [],
       status: "idle",
+      stateTags: [],
     },
     runner: {
       id: "runner",
@@ -211,6 +212,7 @@ export const initialWorld: WorldState = {
       ],
       permissions: [],
       status: "idle",
+      stateTags: [],
     },
   },
   objects: {
