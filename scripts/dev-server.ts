@@ -22,7 +22,11 @@ function openBrowser(url: string) {
     if (process.platform === "darwin") {
       execSync(`open "${url}"`, { stdio: "ignore" });
     } else if (process.platform === "win32") {
-      execSync(`start "" "${url}"`, { stdio: "ignore", shell: process.env.ComSpec ?? "cmd.exe" });
+      // rundll32 比 start 更可靠：不依赖 cmd 窗口上下文
+      spawn("rundll32", ["url.dll,FileProtocolHandler", url], {
+        detached: true,
+        stdio: "ignore",
+      }).unref();
     } else {
       execSync(`xdg-open "${url}"`, { stdio: "ignore" });
     }
