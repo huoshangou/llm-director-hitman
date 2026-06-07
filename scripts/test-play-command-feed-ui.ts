@@ -35,7 +35,8 @@ async function main() {
   await page.waitForFunction(
     () =>
       (document.getElementById("hacker-feed")?.textContent ?? "").includes("YOU /") &&
-      (document.getElementById("hacker-feed")?.textContent ?? "").includes("直接暴力"),
+      ((document.getElementById("hacker-feed")?.textContent ?? "").includes("decline_with_guidance") ||
+        (document.getElementById("hacker-feed")?.textContent ?? "").includes("受阻")),
     { timeout: 15_000 },
   );
 
@@ -63,14 +64,24 @@ async function main() {
   await page.fill("#plan-input", "制造阳台事故");
   await page.click("#btn-submit-plan");
   await page.waitForFunction(
-    () => (document.getElementById("hacker-feed")?.textContent ?? "").includes("NEXT /"),
+    () => {
+      const feed = document.getElementById("hacker-feed")?.textContent ?? "";
+      const status = document.getElementById("plan-status")?.textContent ?? "";
+      return (
+        status.includes("指令未执行") &&
+        (feed.includes("Face /") || feed.includes("Runner /"))
+      );
+    },
     { timeout: 15_000 },
   );
-  const blocked = await page.evaluate(() => document.getElementById("hacker-feed")?.textContent ?? "");
-  assert.ok(blocked.includes("NEXT /"), "blocked accident must surface NEXT in feed");
+  const blocked = await page.evaluate(() => ({
+    feed: document.getElementById("hacker-feed")?.textContent ?? "",
+    status: document.getElementById("plan-status")?.textContent ?? "",
+  }));
+  assert.ok(blocked.status.includes("指令未执行"), "blocked accident must not execute world changes");
   assert.ok(
-    blocked.includes("阳台") || blocked.includes("事故") || blocked.includes("栏杆"),
-    "NEXT should mention balcony setup",
+    blocked.feed.includes("阳台") || blocked.feed.includes("事故") || blocked.feed.includes("栏杆"),
+    "blocked guidance should mention balcony setup",
   );
 
   const logRes = await page.request.get("http://127.0.0.1:8747/api/play-log?limit=40");

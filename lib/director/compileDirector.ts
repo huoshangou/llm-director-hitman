@@ -193,12 +193,21 @@ async function resolvePlanWithSemanticGate(input: {
     });
   }
 
-  return {
+  return clarificationResult({
+    playerPlan: input.playerPlan,
+    world: input.world,
+    selection: input.selection,
     plan,
     validation,
     source: input.source,
-    message: input.message,
-  };
+    clientLlm: input.clientLlm,
+    message: input.message ?? "没有匹配到本 turn 可执行工具。",
+    directorBreak: {
+      code: "CLARIFICATION_NEEDED",
+      playerMessage: "这条指令还缺少可执行前置。先指定一个可操作对象或补一段 setup。",
+      detail: "empty toolChain",
+    },
+  });
 }
 
 async function tryStubFallback(input: {

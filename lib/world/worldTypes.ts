@@ -128,6 +128,7 @@ export type AgentState = {
   availableTools: string[];
   permissions: Permission[];
   status: "idle" | "assigned" | "moving" | "acting" | "exposed" | "blocked";
+  stateTags?: string[];
   /** Reactive / tool-driven hold; idle must not reset attention while active. */
   currentTask?: NpcTask;
 };
